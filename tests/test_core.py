@@ -3,8 +3,8 @@ from pathlib import Path
 
 import pytest
 
-from chimera.ingest import normalize
-from chimera.synthetic import generate
+from parallax.ingest import normalize
+from parallax.synthetic import generate
 
 
 TX = "a" * 64

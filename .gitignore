@@ -13,3 +13,4 @@ dist/
 *.sqlite-*
 .coverage
 htmlcov/
+.github/workflows/

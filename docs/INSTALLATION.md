@@ -4,14 +4,14 @@ Use Python 3.12 (tested locally); Python 3.11+ is declared supported. No Linux V
 
 ## On either Mac or Ubuntu/Linux
 
-Open a terminal in the cloned CHIMERA repository:
+Open a terminal in the cloned PARALLAX repository:
 
 ```bash
 bash scripts/install.sh
 source .venv/bin/activate
 python -m pytest -q
-chimera demo --data data/video-demo --entities 160
-chimera serve --data data/video-demo --port 8877
+parallax demo --data data/video-demo --entities 160
+parallax serve --data data/video-demo --port 8877
 ```
 
 Open **http://127.0.0.1:8877**. The demo command creates training, calibration and held-out synthetic test splits, trains models and attaches evaluation. It refuses to overwrite an existing demo directory: choose a new directory when repeating. Keep the terminal running; press Ctrl+C to stop.
@@ -38,8 +38,8 @@ Transfer the repository and generated wheelhouse. Follow the wheel manifest veri
 ```bash
 bash scripts/install.sh --offline /absolute/path/to/wheelhouse
 source .venv/bin/activate
-chimera demo --data data/offline-demo --entities 160
-chimera serve --data data/offline-demo --port 8877
+parallax demo --data data/offline-demo --entities 160
+parallax serve --data data/offline-demo --port 8877
 ```
 
 Installation downloads dependencies unless using the offline wheelhouse. Analysis runs locally afterward. GeoIP requires separately obtained local Country/ASN MMDB files; never imply their absence is suspicious.

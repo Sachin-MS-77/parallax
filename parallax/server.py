@@ -31,7 +31,7 @@ def create_app(data):
     data = Path(data)
     db_path, model_dir = data / "case.sqlite", data / "model"
     if not db_path.exists() or not (model_dir / "manifest.json").exists():
-        raise ValueError("Missing case.sqlite or model/manifest.json. Run chimera demo or ingest/train/score first.")
+        raise ValueError("Missing case.sqlite or model/manifest.json. Run parallax demo or ingest/train/score first.")
     app = FastAPI(title="CHIMERA offline workbench", docs_url=None, redoc_url=None)
     lock = threading.Lock()
 
@@ -155,7 +155,7 @@ def create_app(data):
             db = connect(db_path)
             try:
                 result = dossier(db, address, data / "keys")
-                return Response(result, media_type="application/zip", headers={"Content-Disposition": 'attachment; filename="chimera-case.zip"'})
+                return Response(result, media_type="application/zip", headers={"Content-Disposition": 'attachment; filename="parallax-case.zip"'})
             except KeyError:
                 raise HTTPException(404, "Profile not found")
             except ValueError as e:
@@ -175,7 +175,7 @@ def create_app(data):
                 a = get_alert(db, row[0])
                 # Prevent spreadsheet formula execution when exporting imported identifiers.
                 writer.writerow({k: "'" + a[k] if isinstance(a[k], str) and a[k].startswith(("=", "+", "-", "@", "\t", "\r")) else a[k] for k in fields})
-            return Response(out.getvalue(), media_type="text/csv", headers={"Content-Disposition": 'attachment; filename="chimera-alerts.csv"'})
+            return Response(out.getvalue(), media_type="text/csv", headers={"Content-Disposition": 'attachment; filename="parallax-alerts.csv"'})
         finally:
             db.close()
 

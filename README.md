@@ -1,6 +1,6 @@
-# CHIMERA Offline Workbench
+# PARALLAX Offline Workbench
 
-CHIMERA is an offline investigation aid for Problem Statement 26146. It ingests Bitcoin transaction and network metadata, preserves the original evidence, builds a heterogeneous address/transaction/IP view, and ranks unusual address profiles for human review.
+PARALLAX is an offline investigation aid for Problem Statement 26146. It ingests Bitcoin transaction and network metadata, preserves the original evidence, builds a heterogeneous address/transaction/IP view, and ranks unusual address profiles for human review.
 
 The implementation deliberately separates three concepts:
 
@@ -10,17 +10,17 @@ The implementation deliberately separates three concepts:
 
 ## Quick start
 
-Use Python 3.12 on macOS or Linux (Python 3.11+ is declared supported). The dependency set is fully local at runtime; GeoIP files are optional and are never downloaded by CHIMERA.
+Use Python 3.12 on macOS or Linux (Python 3.11+ is declared supported). The dependency set is fully local at runtime; GeoIP files are optional and are never downloaded by PARALLAX.
 
 See [installation and teammate handoff](docs/INSTALLATION.md), the [two-minute presentation script](docs/DEMO_SCRIPT.md), and the [honest feature-status checklist](docs/FEATURE_STATUS.md). The dashboard styling is inspired by [Musemind's Fortexa design](https://www.behance.net/gallery/226315823/Cybersecurity-SaaS-Dashboard-Application); all interface code and charts are implemented locally, with no copied design assets.
 
 ```bash
 ./scripts/install.sh
 source .venv/bin/activate
-chimera demo --data data/demo --entities 160
-chimera verify-audit --db data/demo/case.sqlite
-chimera verify-case data/demo/sample-case.zip --trusted-key data/demo/signer-public-key.txt
-chimera serve --data data/demo --port 8765
+parallax demo --data data/demo --entities 160
+parallax verify-audit --db data/demo/case.sqlite
+parallax verify-case data/demo/sample-case.zip --trusted-key data/demo/signer-public-key.txt
+parallax serve --data data/demo --port 8765
 ```
 
 For an air-gapped Linux host, prepare wheels on a matching connected machine and transfer the project with `wheelhouse/`:
@@ -39,30 +39,30 @@ The demo creates disjoint train, calibration, and held-out test splits, then wri
 For a supplied dataset, ingest first and inspect the quarantine count before training:
 
 ```bash
-chimera ingest input.jsonl --db case.sqlite
-chimera train --db case.sqlite --out model --graph-labels labels.json
-chimera score --db case.sqlite --model model
+parallax ingest input.jsonl --db case.sqlite
+parallax train --db case.sqlite --out model --graph-labels labels.json
+parallax score --db case.sqlite --model model
 ```
 
 Inspect files before import. A PDF, including a project brief or a Drive preview, is rejected explicitly:
 
 ```bash
-chimera inspect input.csv
+parallax inspect input.csv
 ```
 
 Optional enrichment is explicit and offline:
 
 ```bash
-chimera ingest input.jsonl --db case.sqlite \
+parallax ingest input.jsonl --db case.sqlite \
   --country-db GeoLite2-Country.mmdb --asn-db GeoLite2-ASN.mmdb \
   --tor-snapshot tor-exits.json --max-gap-seconds 86400
 ```
 
-Seed addresses must be independently sourced and documented. They are evidence inputs, never labels inferred by CHIMERA:
+Seed addresses must be independently sourced and documented. They are evidence inputs, never labels inferred by PARALLAX:
 
 ```bash
-chimera seeds --db case.sqlite --file seeds.json
-chimera score --db case.sqlite --model model
+parallax seeds --db case.sqlite --file seeds.json
+parallax score --db case.sqlite --model model
 ```
 
 Supported input formats are CSV, JSON, JSONL/NDJSON, and XML. Monetary values are parsed as integer satoshis and are rejected if the transaction is internally inconsistent. Every accepted row is archived, hashed, and linked to an append-only audit chain; malformed rows are quarantined rather than silently dropped.
@@ -76,12 +76,12 @@ The dashboard is localhost-only and includes layer-specific interactive graph vi
 Adaptive and external-pattern checks are available for development:
 
 ```bash
-chimera stress-test --model data/demo/model --out data/stress-run
-chimera case-replay --model data/demo/model --out data/published-pattern
-chimera export-pdf --db data/demo/case.sqlite --address ADDRESS \
+parallax stress-test --model data/demo/model --out data/stress-run
+parallax case-replay --model data/demo/model --out data/published-pattern
+parallax export-pdf --db data/demo/case.sqlite --address ADDRESS \
   --pdf data/demo/report.pdf --signature data/demo/report.pdf.sig \
   --public-key data/demo/report-public-key.txt
-chimera verify-pdf data/demo/report.pdf --signature data/demo/report.pdf.sig --trusted-key data/demo/report-public-key.txt
+parallax verify-pdf data/demo/report.pdf --signature data/demo/report.pdf.sig --trusted-key data/demo/report-public-key.txt
 ```
 
 `case-replay` is a synthetic reconstruction of a published DOJ-described laundering pattern. It does not contain real case records or identities. `stress-test` is an adversarial development harness and must not replace a frozen test set.
@@ -90,6 +90,6 @@ chimera verify-pdf data/demo/report.pdf --signature data/demo/report.pdf.sig --t
 
 The synthetic generator creates benign and anomalous scenarios with disjoint entities and time windows. Evaluation reports Precision@K, precision, recall, false-positive rate, average precision, calibration, and a GraphSAGE comparison where labels are available. The alert threshold is selected on a separate calibration split and frozen before the held-out run. Analyst feedback can create a new versioned model, but it requires explicit 0/1 labels and reports a holdout Brier score. Add an independently authored test set before making any claim about real-world performance.
 
-Network metadata is observational: relay, NAT, shared hosting, VPN, and Tor can all create plausible alternative explanations. CHIMERA therefore makes zero automated ownership or attribution claims. Missing GeoIP data remains unknown; it is never converted into a suspicious signal. The evidence completeness score reflects network and script coverage, not GeoIP availability or a statistical confidence interval.
+Network metadata is observational: relay, NAT, shared hosting, VPN, and Tor can all create plausible alternative explanations. PARALLAX therefore makes zero automated ownership or attribution claims. Missing GeoIP data remains unknown; it is never converted into a suspicious signal. The evidence completeness score reflects network and script coverage, not GeoIP availability or a statistical confidence interval.
 
 The signed dossier supports integrity and reproducibility. It is not a legal admissibility certificate. Any production use needs NTRO authorization, retention rules, access controls, and review under the Bharatiya Sakshya Adhiniyam and applicable policy.

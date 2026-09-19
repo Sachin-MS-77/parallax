@@ -3,7 +3,7 @@ requires = ["setuptools>=69"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "chimera-offline"
+name = "parallax-offline"
 version = "0.2.0"
 description = "Offline Bitcoin metadata investigation workbench"
 requires-python = ">=3.11"
@@ -13,13 +13,13 @@ dependencies = ["scikit-learn>=1.5,<1.9", "fastapi>=0.115,<1", "uvicorn>=0.30,<1
 test = ["pytest>=8,<10", "httpx>=0.27,<1"]
 
 [project.scripts]
-chimera = "chimera.cli:main"
+parallax = "parallax.cli:main"
 
 [tool.setuptools.package-data]
-chimera = ["static/*"]
+parallax = ["static/*"]
 
 [tool.setuptools.packages.find]
-include = ["chimera*"]
+include = ["parallax*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

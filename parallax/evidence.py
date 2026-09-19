@@ -54,7 +54,7 @@ def dossier(db, address, key_dir):
         source.pop("stored_path")
     observations = [dict(r) for r in db.execute("""SELECT o.* FROM observations o JOIN
        (SELECT DISTINCT txid FROM flows WHERE address=?) f ON f.txid=o.txid ORDER BY o.timestamp""", (address,))]
-    payload = {"format": "chimera-case-v1", "exported_at": datetime.now(timezone.utc).isoformat(),
+    payload = {"format": "parallax-case-v1", "exported_at": datetime.now(timezone.utc).isoformat(),
                "scope": "Investigative lead only; no ownership attribution or legal certification",
                "alert": alert, "graph": graph(db, address, limit=30), "observations": observations,
                "sources": sources, "model": get_meta(db, "model"), "audit_anchor": integrity}
@@ -73,7 +73,7 @@ def dossier(db, address, key_dir):
     key, public = keypair(key_dir)
     files = {"case.json": case_bytes, "report.html": report, "report.pdf":pdf,
              "report.pdf.sig":base64.b64encode(key.sign(pdf))}
-    manifest = {"format": "chimera-signature-v1", "algorithm": "Ed25519",
+    manifest = {"format": "parallax-signature-v1", "algorithm": "Ed25519",
                 "files": {name: hashlib.sha256(body).hexdigest() for name, body in files.items()}}
     manifest_bytes = canonical(manifest).encode()
     key, public = keypair(key_dir)

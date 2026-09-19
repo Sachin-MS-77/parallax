@@ -1,16 +1,16 @@
-# CHIMERA — two-minute presentation
+# PARALLAX — two-minute presentation
 
 Rehearse at approximately 125–135 words/minute. Use one PPT slide for the first 30 seconds, then switch to the already-running browser. This script demonstrates the core flow; it cannot prove every feature in 90 seconds.
 
 ## 0:00–0:30 — PPT (one slide)
 
-Slide title: **CHIMERA: Offline Bitcoin Investigation**
+Slide title: **PARALLAX: Offline Bitcoin Investigation**
 
 Three points: **CSV / JSON / XML → fused evidence graph → explainable leads**. Below: **Isolation Forest + GraphSAGE · Evidence integrity · Human review**.
 
 Say:
 
-“Bitcoin investigations involve two disconnected views: transactions on the blockchain and observations from the network. CHIMERA brings them together in an offline investigation workbench for NTRO’s problem statement 26146. It ingests bulk metadata, links addresses, transactions and observed IPs, and uses machine learning to prioritize explainable leads. Analysts can inspect the supporting evidence and export a signed case dossier.”
+“Bitcoin investigations involve two disconnected views: transactions on the blockchain and observations from the network. PARALLAX brings them together in an offline investigation workbench for NTRO’s problem statement 26146. It ingests bulk metadata, links addresses, transactions and observed IPs, and uses machine learning to prioritize explainable leads. Analysts can inspect the supporting evidence and export a signed case dossier.”
 
 ## 0:30–0:48 — Dashboard overview
 
@@ -40,7 +40,7 @@ Click Model validation. Show the baselines table.
 
 Click Evidence & sources → Verify evidence now. Return to leads, click Signed PDF + evidence.
 
-“Finally, we verify the evidence trail and export a signed PDF and evidence package. CHIMERA runs locally after installation, keeping analysis offline. It supports investigators with reproducible leads; final attribution remains a human decision.”
+“Finally, we verify the evidence trail and export a signed PDF and evidence package. PARALLAX runs locally after installation, keeping analysis offline. It supports investigators with reproducible leads; final attribution remains a human decision.”
 
 ## Recording preparation
 

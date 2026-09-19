@@ -10,17 +10,17 @@ import pytest
 from fastapi.testclient import TestClient
 from cryptography.exceptions import InvalidSignature
 
-from chimera.cli import demo
-from chimera.evidence import verify_dossier, verify_pdf
-from chimera.features import build_features, matrix
-from chimera.graph import graph
-from chimera.intelligence import context
-from chimera.ingest import ingest
-from chimera.model import load_model, predict
-from chimera.server import create_app
-from chimera.storage import connect, verify_state, get_meta
-from chimera.synthetic import generate
-from chimera.validation import adaptive, case_replay
+from parallax.cli import demo
+from parallax.evidence import verify_dossier, verify_pdf
+from parallax.features import build_features, matrix
+from parallax.graph import graph
+from parallax.intelligence import context
+from parallax.ingest import ingest
+from parallax.model import load_model, predict
+from parallax.server import create_app
+from parallax.storage import connect, verify_state, get_meta
+from parallax.synthetic import generate
+from parallax.validation import adaptive, case_replay
 
 
 @pytest.fixture(scope='module')

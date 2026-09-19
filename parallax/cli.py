@@ -52,7 +52,7 @@ def demo(root, entities=160):
 
 
 def parser():
-    p = argparse.ArgumentParser(prog="chimera", description="Offline Bitcoin metadata investigation workbench")
+    p = argparse.ArgumentParser(prog="parallax", description="Offline Bitcoin metadata investigation workbench")
     sub = p.add_subparsers(dest="command", required=True)
     d = sub.add_parser("demo", help="Build reproducible synthetic demo and train real models")
     d.add_argument("--data", default="data/demo")
