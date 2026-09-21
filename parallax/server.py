@@ -32,7 +32,7 @@ def create_app(data):
     db_path, model_dir = data / "case.sqlite", data / "model"
     if not db_path.exists() or not (model_dir / "manifest.json").exists():
         raise ValueError("Missing case.sqlite or model/manifest.json. Run parallax demo or ingest/train/score first.")
-    app = FastAPI(title="CHIMERA offline workbench", docs_url=None, redoc_url=None)
+    app = FastAPI(title="PARALLAX offline workbench", docs_url=None, redoc_url=None)
     lock = threading.Lock()
 
     @app.middleware("http")

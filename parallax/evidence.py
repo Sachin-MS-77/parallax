@@ -61,9 +61,9 @@ def dossier(db, address, key_dir):
     case_bytes = canonical(payload).encode()
     # Print-friendly offline HTML is covered by the signed manifest too.
     escape = html.escape
-    report = f"""<!doctype html><html><head><meta charset="utf-8"><title>CHIMERA case dossier</title>
+    report = f"""<!doctype html><html><head><meta charset="utf-8"><title>PARALLAX case dossier</title>
 <style>body{{font:15px system-ui;max-width:900px;margin:40px auto;color:#182c3c}}h1{{letter-spacing:3px}}pre{{white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5f7;padding:20px}}@media print{{body{{margin:0}}}}</style></head>
-<body><h1>CHIMERA / CASE DOSSIER</h1><p>{escape(payload['scope'])}</p>
+<body><h1>PARALLAX / CASE DOSSIER</h1><p>{escape(payload['scope'])}</p>
 <h2>{escape(address)}</h2><p>Priority: {alert['priority']}/100 · Evidence quality: {alert['evidence_quality']}/100</p>
 <p>Neither value is the probability of criminal activity. Model: {escape(alert['model_sha256'])}</p>
 <h3>Reasons and limitations</h3><pre>{escape(json.dumps({'rules':alert['rules'],'sensitivity':alert['explanations'],'caveats':alert['caveats']},indent=2))}</pre>

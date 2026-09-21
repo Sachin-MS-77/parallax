@@ -194,7 +194,7 @@ def main():
             result=verify_pdf(args.file,args.signature,args.trusted_key)
         print(json.dumps(result, indent=2))
     except (ValueError, FileNotFoundError, KeyError) as e:
-        print(f"CHIMERA: {e}", file=sys.stderr)
+        print(f"PARALLAX: {e}", file=sys.stderr)
         raise SystemExit(1)
 
 

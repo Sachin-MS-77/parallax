@@ -8,6 +8,21 @@ The implementation deliberately separates three concepts:
 * `evidence_quality` describes how complete the supporting observations are;
 * network edges are labelled `observed_relay_only` and never claim that an IP owns a wallet.
 
+## Architecture
+
+Read the [architecture and full working pipeline](docs/ARCHITECTURE.md) for GitHub-rendered diagrams, component responsibilities, model validation and runtime boundaries.
+
+```mermaid
+flowchart LR
+    A["Metadata files"] --> B["Ingest + validate + audit"]
+    B --> C["Fused evidence graph"]
+    C --> D["Rules + Isolation Forest + GraphSAGE"]
+    D --> E["Explainable ranked leads"]
+    E --> F["Analyst dashboard + signed dossier"]
+```
+
+The [PARALLAX Linux screenshots workflow template](docs/workflows/linux-demo.yml) runs a synthetic demo on Ubuntu and saves dashboard, investigation, validation and evidence screenshots with environment metadata. To enable it, copy it to `.github/workflows/linux-demo.yml` and push using a credential allowed to update workflows. Download its `parallax-linux-demo` artifact from a successful run. These are Linux-hosted browser captures, not screenshots of a Linux desktop. The template has not yet run; the current publishing credential lacks workflow permission.
+
 ## Quick start
 
 Use Python 3.12 on macOS or Linux (Python 3.11+ is declared supported). The dependency set is fully local at runtime; GeoIP files are optional and are never downloaded by PARALLAX.

@@ -14,7 +14,7 @@ def report_pdf(payload):
     story=[]
     def p(text, style='BodyText'): return Paragraph(escape(str(text)),styles[style])
     a=payload['alert']
-    story += [p('CHIMERA | INVESTIGATION DOSSIER','Title'),p(payload['scope']),Spacer(1,14),
+    story += [p('PARALLAX | INVESTIGATION DOSSIER','Title'),p(payload['scope']),Spacer(1,14),
               p('Address and candidate entity','Heading2'),p(a['address'],'SmallWrap'),
               p(a.get('entity_id','Unresolved'),'SmallWrap'),p('Exported: '+payload['exported_at'],'SmallWrap')]
     table=Table([[p('Priority'),p('Evidence completeness'),p('Transactions')],
@@ -40,6 +40,6 @@ def report_pdf(payload):
         story.append(p(f"Showing 20 of {len(payload['observations'])} observations. Complete records and graph are preserved in signed case.json."))
     def footer(canvas,doc):
         canvas.saveState(); canvas.setFont('Helvetica',8); canvas.setFillColor(colors.HexColor('#526579'))
-        canvas.drawString(42,25,'CHIMERA - Investigative lead for human review'); canvas.drawRightString(553,25,str(doc.page)); canvas.restoreState()
+        canvas.drawString(42,25,'PARALLAX - Investigative lead for human review'); canvas.drawRightString(553,25,str(doc.page)); canvas.restoreState()
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     return output.getvalue()

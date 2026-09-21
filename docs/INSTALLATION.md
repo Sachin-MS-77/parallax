@@ -55,4 +55,4 @@ git remote add origin YOUR_GITHUB_REPOSITORY_URL
 git push -u origin HEAD
 ```
 
-If origin already exists, inspect it with `git remote -v` before changing it. Your teammate clones that URL, checks out the pushed branch and runs the installation commands above. The included GitHub Actions workflow runs Mac and Ubuntu tests after pushing; a workflow file alone is not proof of a passing Linux run.
+Your teammate clones the intended repository, checks out the pushed branch and runs the installation commands above. Workflow templates are in `docs/workflows/`; copy them to `.github/workflows/` and push using a credential allowed to update workflows. A workflow template alone is not proof of a passing Linux run.

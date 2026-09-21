@@ -1,4 +1,4 @@
-/* Original CHIMERA interface, visually inspired by Musemind's Fortexa reference. */
+/* Original PARALLAX interface, visually inspired by Musemind's Fortexa reference. */
 :root{background:#0e0d12;color:#eeedf3;--panel:#18161e;--line:#302b39;--muted:#aaa3b5;--mint:#c09aff}
 body{background:radial-gradient(ellipse at 80% 0%,#26193288,transparent 45%),#0e0d12}
 aside{background:#121017;border-color:#2a2532;width:220px;padding:32px 20px}
