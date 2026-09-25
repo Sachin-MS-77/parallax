@@ -101,6 +101,9 @@ def train(db_path, model_dir, calibration_db=None, labels_path=None, seed=41, gr
         threshold=max(candidates,key=lambda t:(f1_score(cy,cp>=t,zero_division=0),t))
         manifest['priority_threshold']=float(threshold)
         manifest['threshold_policy']='Threshold maximizes F1 on separate calibration profiles; frozen before test evaluation'
+    manifest.update({'priority_threshold':60.000001,'review_threshold':30.000001,
+                     'threshold_policy':'Fixed Fracture Index bands: Low <=30, Moderate <=60, High >60',
+                     'priority_formula':'Five-term configured Fracture Index; missing evidence contributes zero'})
     (model_dir / "manifest.json").write_text(json.dumps(manifest, indent=2))
     return manifest
 
@@ -151,12 +154,25 @@ def predict(rows, bundle, manifest, domain="unknown", explanations=True):
                     'timing':(float(np.clip(1-f['log_median_gap_seconds']/np.log1p(3600),0,1)),.08),
                     'address_reuse':(float(any(r['name']=='Address reuse' for r in row['rules'])),.07),
                     'relay_association':(min(1,len(row.get('network_associations',[]))/3) if row['network_coverage'] else None,.05)}
-        available=sum(w for value,w in components.values() if value is not None)
-        score=round(100*sum(value*w for value,w in components.values() if value is not None)/available,2)
+        # Preserve detector scores separately; the Fracture Index uses the stated five-term formula.
+        detector_components = components
+        weights = row['fracture_config']['weights']
+        values = {
+            'taint': row['taint']['fraction'] if row['taint']['available'] else None,
+            'behavioral_link': max(float(fused[i]), float(graph_scores[i]) if graph_scores is not None else 0,
+                                   row['rule_score'], row['behavioral_drift']['score']),
+            'timing': max(components['timing'][0], row['behavioral_drift']['score']),
+            'address_reuse': float(any(r['name'] in ('Address reuse','Address reuse after mixing pattern') for r in row['rules'])),
+            'network_exposure': min(1.,len(row.get('network_associations',[]))/3) if row['network_coverage'] else None}
+        components = {k:(v,weights[k]) for k,v in values.items()}
+        score = round(100*sum((v or 0)*weights[k] for k,v in values.items()),2)
+        feedback_probability = None
         if bundle.get('feedback'):
             keys=bundle['feedback']['components']
-            fx=[[components[k][0] if components[k][0] is not None else 0 for k in keys]+[int(components[k][0] is not None) for k in keys]]
-            score=round(float(bundle['feedback']['model'].predict_proba(fx)[0,1])*100,2)
+            fx=[[(values[k] or 0) for k in keys]+[int(values[k] is not None) for k in keys]]
+            feedback_probability=float(bundle['feedback']['model'].predict_proba(fx)[0,1])
+        band = 'High' if score>60 else 'Moderate' if score>30 else 'Low'
+        available = 1
         reasons = []
         if explanations:
             for j in np.argsort(shap_values[i])[:6]:
@@ -165,24 +181,34 @@ def predict(rows, bundle, manifest, domain="unknown", explanations=True):
                                 "anomaly_score_delta": round(float(changes[i, j]), 6),
                                 "shap_path_length":round(float(shap_values[i,j]),6)})
         result.append({**{k: v for k, v in row.items() if k != "vector"},
-                       "priority": score, "priority_band": "High" if score >= manifest.get('priority_threshold',80) else "Review" if score >= .75*manifest.get('priority_threshold',80) else "Low",
+                       "priority": score, "priority_band": "High" if score>60 else "Review" if score>30 else "Low",
+                       "confidence_band":band,
+                       "confidence_scope":"Score band only; not calibrated certainty",
+                       "feedback_model_probability":feedback_probability,
+                       "component_coverage":sum(weights[k] for k,v in values.items() if v is not None),
+                       "detector_scores":{k:{'value':v,'weight':w} for k,(v,w) in detector_components.items()},
                        "model_percentile": round(float(fused[i]) * 100, 2),
                        "chain_percentile": round(float(chain[i]) * 100, 2),
                        "raw_anomaly_score": round(float(raw[i]), 6),
                        "synthetic_probability": round(float(probability[i]), 4) if probability[i] is not None else None,
                        "probability_scope": "Synthetic benchmark only" if probability[i] is not None else "Uncalibrated for this data",
-                       "subscores":{k:{'value':v,'weight':w/available if v is not None else 0} for k,(v,w) in components.items()},
+                       "subscores":{k:{'value':v,'weight':w} for k,(v,w) in components.items()},
                        "graph_score":float(graph_scores[i]) if graph_scores is not None else None,
                        "shap_base_path_length":shap_base,
                        "shap_values":shap_values[i].tolist() if explanations else None,
                        "reason":'; '.join(r['name'] for r in row['rules']) or 'Unusual combined transaction/network profile relative to training data',
                        "behavior_group": int(clusters[i]) + 1, "model_sha256": manifest["artifact_sha256"],
                        "explanations": reasons, "status": "New"})
+    from .analysis import case_note
+    for alert in result:
+        alert['case_note'] = case_note(alert)
     return sorted(result, key=lambda r: (-r["priority"], r["address"]))
 
 
 def score(db_path, model_dir):
     bundle, manifest = load_model(model_dir)
+    manifest = {**manifest, 'priority_threshold':60.000001,'review_threshold':30.000001,
+                'priority_formula':'Fracture Index: configured five-term weighted sum; unknown components contribute zero'}
     db = connect(db_path)
     rows = build_features(db)
     domain = get_meta(db, "domain", "unknown")

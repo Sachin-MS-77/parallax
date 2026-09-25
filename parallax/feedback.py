@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split
 from .model import load_model
 from .storage import connect, file_hash, digest
 
-COMPONENTS=['anomaly','graph','seed_proximity','behavioral','timing','address_reuse','relay_association']
+COMPONENTS=['taint','behavioral_link','timing','address_reuse','network_exposure']
 
 
 def feedback_update(db_path, model_dir, labels_path, out):
@@ -43,6 +43,6 @@ def feedback_update(db_path, model_dir, labels_path, out):
     joblib.dump(bundle,out/'model.joblib')
     manifest.update({'feedback':report,'artifact_sha256':file_hash(out/'model.joblib'),
                      'parent_model_sha256':manifest['artifact_sha256'],
-                     'priority_formula':'100 * feedback logistic score using component values plus missingness indicators'})
+                     'priority_formula':'Configured five-term Fracture Index; feedback logistic estimate reported separately'})
     (out/'manifest.json').write_text(json.dumps(manifest,indent=2))
     return report

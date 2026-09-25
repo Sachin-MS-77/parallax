@@ -1,0 +1,27 @@
+{
+  "elapsed_seconds": 11.217,
+  "peak_rss_mb": 475.55,
+  "platform": "macOS-26.3-arm64-arm-64bit-Mach-O",
+  "python": "3.14.0",
+  "generated": {
+    "train": {
+      "metadata": "/Users/sachinchandru/Documents/Codex/2026-09-19/problem-statement-id-26146-problem-statement/outputs/chimera/data/submission-20260925/fixtures/train.jsonl",
+      "entities": 200,
+      "observations": 5091,
+      "positive_entities": 40
+    },
+    "calibration": {
+      "metadata": "/Users/sachinchandru/Documents/Codex/2026-09-19/problem-statement-id-26146-problem-statement/outputs/chimera/data/submission-20260925/fixtures/calibration.jsonl",
+      "entities": 160,
+      "observations": 3791,
+      "positive_entities": 32
+    },
+    "test": {
+      "metadata": "/Users/sachinchandru/Documents/Codex/2026-09-19/problem-statement-id-26146-problem-statement/outputs/chimera/data/submission-20260925/fixtures/test.jsonl",
+      "entities": 160,
+      "observations": 3893,
+      "positive_entities": 32
+    }
+  },
+  "scope": "Full demo: generation, ingest, training, scoring, evaluation, dossier export"
+}

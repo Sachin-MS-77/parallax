@@ -1,0 +1,218 @@
+{
+  "scope": "Held-out synthetic scenarios only; not real-world detection accuracy",
+  "split": "test",
+  "model_sha256": "71afdbee4b90b58e769b2f178a9a3d9a2eabe0d941a27d19e587a9b04f82cee0",
+  "labels_sha256": "c7c80e614a2be5fd0868df3be9c001b2764e2d809bb19115d9fa0a595291e662",
+  "test_source_hashes": [
+    "8850e7e9d192172cc32d022c1a4b4a1824b8911ceb64a4dbaba34f375274d388"
+  ],
+  "threshold_policy": "Fixed Fracture Index bands: Low <=30, Moderate <=60, High >60",
+  "baselines": {
+    "rules_only": {
+      "precision_at_20": 0.35,
+      "k_used": 20,
+      "precision": 0.288135593220339,
+      "recall": 0.53125,
+      "false_positive_rate": 0.328125,
+      "average_precision": 0.26569722650231126,
+      "threshold": 0.5,
+      "alerts": 59,
+      "positives": 32,
+      "profiles": 160
+    },
+    "chain_only_ml": {
+      "precision_at_20": 0.75,
+      "k_used": 20,
+      "precision": 0.8888888888888888,
+      "recall": 0.25,
+      "false_positive_rate": 0.0078125,
+      "average_precision": 0.5833955059095045,
+      "threshold": 0.95,
+      "alerts": 9,
+      "positives": 32,
+      "profiles": 160
+    },
+    "fused_ml": {
+      "precision_at_20": 0.8,
+      "k_used": 20,
+      "precision": 1.0,
+      "recall": 0.28125,
+      "false_positive_rate": 0.0,
+      "average_precision": 0.7349723135833508,
+      "threshold": 0.95,
+      "alerts": 9,
+      "positives": 32,
+      "profiles": 160
+    },
+    "fused_priority": {
+      "precision_at_20": 0.65,
+      "k_used": 20,
+      "precision": 0.0,
+      "recall": 0.0,
+      "false_positive_rate": 0.0,
+      "average_precision": 0.677243885928628,
+      "threshold": 0.60000001,
+      "alerts": 0,
+      "positives": 32,
+      "profiles": 160
+    },
+    "graphsage": {
+      "precision_at_20": 1.0,
+      "k_used": 20,
+      "precision": 1.0,
+      "recall": 0.90625,
+      "false_positive_rate": 0.0,
+      "average_precision": 0.9900507478632479,
+      "threshold": 0.5,
+      "alerts": 29,
+      "positives": 32,
+      "profiles": 160
+    }
+  },
+  "per_scenario": {
+    "amount_fragmentation": {
+      "precision_at_20": 0.0,
+      "k_used": 20,
+      "precision": 0.0,
+      "recall": 0.0,
+      "false_positive_rate": 0.0,
+      "average_precision": 0.1751427316644708,
+      "threshold": 0.60000001,
+      "alerts": 0,
+      "positives": 8,
+      "profiles": 136
+    },
+    "automated_service": {
+      "precision_at_20": 0.0,
+      "k_used": 20,
+      "precision": 0.0,
+      "recall": 0.0,
+      "false_positive_rate": 0.0,
+      "average_precision": null,
+      "threshold": 0.60000001,
+      "alerts": 0,
+      "positives": 0,
+      "profiles": 24
+    },
+    "collaborative_spend": {
+      "precision_at_20": 0.0,
+      "k_used": 20,
+      "precision": 0.0,
+      "recall": 0.0,
+      "false_positive_rate": 0.0,
+      "average_precision": null,
+      "threshold": 0.60000001,
+      "alerts": 0,
+      "positives": 0,
+      "profiles": 27
+    },
+    "merchant_batch": {
+      "precision_at_20": 0.0,
+      "k_used": 20,
+      "precision": 0.0,
+      "recall": 0.0,
+      "false_positive_rate": 0.0,
+      "average_precision": null,
+      "threshold": 0.60000001,
+      "alerts": 0,
+      "positives": 0,
+      "profiles": 28
+    },
+    "ordinary": {
+      "precision_at_20": 0.0,
+      "k_used": 20,
+      "precision": 0.0,
+      "recall": 0.0,
+      "false_positive_rate": 0.0,
+      "average_precision": null,
+      "threshold": 0.60000001,
+      "alerts": 0,
+      "positives": 0,
+      "profiles": 22
+    },
+    "rapid_fanout": {
+      "precision_at_20": 0.4,
+      "k_used": 20,
+      "precision": 0.0,
+      "recall": 0.0,
+      "false_positive_rate": 0.0,
+      "average_precision": 1.0,
+      "threshold": 0.60000001,
+      "alerts": 0,
+      "positives": 8,
+      "profiles": 136
+    },
+    "relay_burst": {
+      "precision_at_20": 0.05,
+      "k_used": 20,
+      "precision": 0.0,
+      "recall": 0.0,
+      "false_positive_rate": 0.0,
+      "average_precision": 0.15647838841393633,
+      "threshold": 0.60000001,
+      "alerts": 0,
+      "positives": 8,
+      "profiles": 136
+    },
+    "shared_relay": {
+      "precision_at_20": 0.0,
+      "k_used": 20,
+      "precision": 0.0,
+      "recall": 0.0,
+      "false_positive_rate": 0.0,
+      "average_precision": null,
+      "threshold": 0.60000001,
+      "alerts": 0,
+      "positives": 0,
+      "profiles": 27
+    },
+    "timing_jitter": {
+      "precision_at_20": 0.3,
+      "k_used": 20,
+      "precision": 0.0,
+      "recall": 0.0,
+      "false_positive_rate": 0.0,
+      "average_precision": 0.3927083333333333,
+      "threshold": 0.60000001,
+      "alerts": 0,
+      "positives": 8,
+      "profiles": 136
+    }
+  },
+  "calibration": {
+    "brier_score": 0.12105783081250002,
+    "domain": "synthetic",
+    "bins": [
+      {
+        "lower": 0.0,
+        "count": 107,
+        "mean_predicted": 0.134696261682243,
+        "observed_rate": 0.07476635514018691
+      },
+      {
+        "lower": 0.2,
+        "count": 41,
+        "mean_predicted": 0.2703390243902439,
+        "observed_rate": 0.34146341463414637
+      },
+      {
+        "lower": 0.4,
+        "count": 11,
+        "mean_predicted": 0.49279999999999996,
+        "observed_rate": 0.8181818181818182
+      },
+      {
+        "lower": 0.6000000000000001,
+        "count": 1,
+        "mean_predicted": 0.6557,
+        "observed_rate": 1.0
+      }
+    ]
+  },
+  "limitations": [
+    "Synthetic data is generated by the same project; independent external validation remains necessary.",
+    "Entities and time periods are disjoint; scenario families recur across calibration and test.",
+    "Performance must not be presented as operational accuracy or probability of criminality.",
+    "Seed proximity is bounded graph distance, not an assertion that funds or owners are illicit."
+  ]
+}

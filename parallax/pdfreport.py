@@ -21,6 +21,20 @@ def report_pdf(payload):
                  [p(f"{a['priority']}/100"),p(f"{a['evidence_quality']}/100"),p(a['tx_count'])]],colWidths=[170]*3)
     table.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),colors.HexColor('#e4edf4')),('BOX',(0,0),(-1,-1),.5,colors.HexColor('#bac9d5')),('VALIGN',(0,0),(-1,-1),'TOP'),('TOPPADDING',(0,0),(-1,-1),8),('BOTTOMPADDING',(0,0),(-1,-1),8)]))
     story += [Spacer(1,12),table,p('Reasons for review','Heading2'),p(a.get('reason','See component evidence'))]
+    if payload.get('cluster'):
+        story += [p('Cluster scope','Heading2'),
+                  p(f"{len(payload['cluster']['members'])} candidate members; {payload['cluster']['unique_transactions']} unique supporting transactions. Ownership remains unverified.")]
+        for member in payload['cluster']['members']: story.append(p(member,'SmallWrap'))
+    if a.get('case_note'):
+        story += [p('Evidence-derived case note','Heading2'),p(a['case_note'])]
+    if a.get('cashout_targets'):
+        story.append(p('Unverified cash-out candidates','Heading2'))
+        for target in a['cashout_targets']:
+            story += [p(target['address'],'SmallWrap'),p(target['basis']+'. '+target['caveat'])]
+    if payload.get('graph'):
+        from .proofgraph import drawing
+        story += [p('Supporting evidence subgraph','Heading2'),drawing(payload['graph']),
+                  p('Purple: address; blue: transaction; amber: observed relay. Labels abbreviated in figure. Full identifiers and evidence in signed case.json.','SmallWrap')]
     for r in a['rules']: story += [p(r['name'],'Heading3'),p(r['reason'])]
     story.append(p('Model explanation','Heading2'))
     story.append(p('Tree SHAP values explain Isolation Forest mean path length. Negative values increase anomalousness. These are not causal claims.'))

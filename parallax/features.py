@@ -89,8 +89,13 @@ def build_features(db):
                        "evidence_quality": quality, "network_coverage": round(coverage, 4),
                        "geo_coverage": round(geo_count / max(observation_count, 1), 4),
                        "evidence": source_refs, "caveats": caveats}
+        from .analysis import changepoints
+        profile["behavioral_drift"] = changepoints(txs)
+        for rule in rules:
+            rule.setdefault("txids", profile["txids"])
         result.append(enrich_profile(profile,ctx,txs))
-    return result
+    from .analysis import enrich
+    return enrich(result, db, ctx)
 
 
 def matrix(rows, names=FEATURES):

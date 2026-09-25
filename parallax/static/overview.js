@@ -1,9 +1,10 @@
 'use strict';
 function renderOverview(data) {
   const c=data.counts, threshold=data.model?.priority_threshold??80;
-  $('#band option[value="high"]').textContent='High · ≥ '+threshold.toFixed(1);
-  $('#band option[value="review"]').textContent='Review · ≥ '+(.75*threshold).toFixed(1);
-  $('#band option[value="low"]').textContent='Low · < '+(.75*threshold).toFixed(1);
+  const review=data.model?.review_threshold??(.75*threshold);
+  $('#band option[value="high"]').textContent='High · > '+(threshold-0.000001).toFixed(1);
+  $('#band option[value="review"]').textContent='Moderate · > '+(review-0.000001).toFixed(1);
+  $('#band option[value="low"]').textContent='Low · ≤ '+(review-0.000001).toFixed(1);
   const rows=data.timeline||[], chart=$('#activity-chart');
   chart.replaceChildren();
   if(rows.length) {
@@ -34,9 +35,11 @@ function renderOverview(data) {
   else {
     [['chain_only_ml','Chain-only ML'],['fused_ml','Fused ML'],['fused_priority','Fused priority']].forEach(([key,label])=>{
       const value=baselines[key]?.precision_at_20;if(value==null)return;
-      const row=el('div',undefined,'feature');row.append(el('span',label),el('strong',Math.round(value*100)+'%'));
+      const k=baselines[key].k_used;
+      const result=k?`${Math.round(value*k)}/${k}`:Math.round(value*100)+'%';
+      const row=el('div',undefined,'feature');row.append(el('span',label),el('strong',result));
       const bar=el('div',undefined,'bar'),fill=el('i');fill.style.width=value*100+'%';bar.append(fill);comparison.append(row,bar);
     });
-    comparison.append(el('p','Precision@20 · held-out synthetic fixtures only','chart-caption'));
+    comparison.append(el('p','True positives among top-ranked leads · held-out synthetic fixtures only','chart-caption'));
   }
 }

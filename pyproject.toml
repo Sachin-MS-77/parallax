@@ -7,7 +7,7 @@ name = "parallax-offline"
 version = "0.2.0"
 description = "Offline Bitcoin metadata investigation workbench"
 requires-python = ">=3.11"
-dependencies = ["scikit-learn>=1.5,<1.9", "fastapi>=0.115,<1", "uvicorn>=0.30,<1", "defusedxml>=0.7,<1", "maxminddb>=2.6,<4", "cryptography>=43", "ijson>=3.3,<4", "reportlab>=4.2,<5", "shap>=0.46,<0.51", "torch>=2.5,<3"]
+dependencies = ["scikit-learn>=1.5,<1.9", "fastapi>=0.115,<1", "uvicorn>=0.30,<1", "defusedxml>=0.7,<1", "maxminddb>=2.6,<4", "cryptography>=43", "ijson>=3.3,<4", "reportlab>=4.2,<5", "shap>=0.46,<0.51", "torch>=2.5,<3", "ruptures>=1.1.9,<2", "polars>=1.20,<2", "duckdb>=1.2,<2", "streamlit>=1.40,<2", "networkx>=3.4,<4"]
 
 [project.optional-dependencies]
 test = ["pytest>=8,<10", "httpx>=0.27,<1"]
@@ -16,7 +16,7 @@ test = ["pytest>=8,<10", "httpx>=0.27,<1"]
 parallax = "parallax.cli:main"
 
 [tool.setuptools.package-data]
-parallax = ["static/*"]
+parallax = ["static/*", "fracture.json"]
 
 [tool.setuptools.packages.find]
 include = ["parallax*"]

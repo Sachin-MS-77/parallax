@@ -16,7 +16,7 @@ Read the [architecture and full working pipeline](docs/ARCHITECTURE.md) for GitH
 flowchart LR
     A["Metadata files"] --> B["Ingest + validate + audit"]
     B --> C["Fused evidence graph"]
-    C --> D["Rules + Isolation Forest + GraphSAGE"]
+    C --> D["Rules + Isolation Forest + changepoints + GraphSAGE"]
     D --> E["Explainable ranked leads"]
     E --> F["Analyst dashboard + signed dossier"]
 ```
@@ -103,7 +103,20 @@ parallax verify-pdf data/demo/report.pdf --signature data/demo/report.pdf.sig --
 
 ## Validation and limitations
 
-The synthetic generator creates benign and anomalous scenarios with disjoint entities and time windows. Evaluation reports Precision@K, precision, recall, false-positive rate, average precision, calibration, and a GraphSAGE comparison where labels are available. The alert threshold is selected on a separate calibration split and frozen before the held-out run. Analyst feedback can create a new versioned model, but it requires explicit 0/1 labels and reports a holdout Brier score. Add an independently authored test set before making any claim about real-world performance.
+The synthetic generator creates benign and anomalous scenarios with disjoint input entities and time windows. Evaluation reports Precision@K, precision, recall, false-positive rate, average precision, synthetic calibration and a GraphSAGE comparison where labels are available. The requested Fracture Index uses fixed score bands: Low <=30, Moderate >30 to 60, High >60. The synthetic probability calibrator remains separate from this priority formula. Explicit false-positive dismissals update the configured weights and invalidate the old evaluation. The separate labelled-feedback model reports its probability estimate and holdout Brier score without replacing the Fracture Index. Independent external validation remains necessary.
+
+## Submission working plan
+
+See [the updated feature matrix](docs/FEATURE_STATUS.md) and [measured submission results](docs/SUBMISSION.md). The new implementation includes Polars/DuckDB ingestion batches, ruptures changepoints, chronological proportional haircut exposure, local seed/exchange CSV import, endpoint candidates, the five configured Fracture Index components, evidence-derived notes, cluster dossiers, an independent verifier, and live evasion and false-positive weight updates.
+
+```bash
+parallax streamlit --data data/demo --port 8501
+parallax adversarial --model data/demo/model --out data/adversarial-run --rounds 3
+parallax export-audit --db data/demo/case.sqlite --out data/demo/original-audit.jsonl
+python scripts/verify_dossier_standalone.py data/demo/sample-case.zip data/demo/original-audit.jsonl --trusted-key data/demo/signer-public-key.txt
+```
+
+The standalone verifier imports no application code. It checks signatures, the original log prefix, the signed scoring snapshot, cluster membership and normalized record consistency. Store the trusted key and original audit log separately from the dossier; a bundle that contains its own key and log cannot establish external trust on its own.
 
 Network metadata is observational: relay, NAT, shared hosting, VPN, and Tor can all create plausible alternative explanations. PARALLAX therefore makes zero automated ownership or attribution claims. Missing GeoIP data remains unknown; it is never converted into a suspicious signal. The evidence completeness score reflects network and script coverage, not GeoIP availability or a statistical confidence interval.
 

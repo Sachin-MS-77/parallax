@@ -12,6 +12,7 @@ import ijson
 from defusedxml.ElementTree import iterparse
 
 from .storage import audit, canonical, connect, digest, file_hash, set_meta
+from .bulk import staged_records
 
 ALIASES = {"time": "timestamp", "transaction_id": "txid", "source_ip": "src_ip",
            "destination_ip": "dst_ip", "source_port": "src_port", "destination_port": "dst_port",
@@ -202,7 +203,7 @@ def ingest(path, db_path, mapping=None, country_db=None, asn_db=None, tor_snapsh
             audit(db, {"event": "source_ingested", "sha256": source_hash, "name": path.name,
                        "mapping": mapping or {}, "geo_databases": geo.hashes})
             seen = 0
-            for index, raw in enumerate(records(archive), 1):
+            for index, raw in staged_records(records(archive)):
                 seen += 1
                 raw_hash = digest(raw)
                 try:

@@ -27,7 +27,12 @@ def context(db, window=60, hub_limit=20):
     for t in transactions:
         txid = t['txid']; c = txs[txid]
         inputs, outputs = c['input_addresses'], c['output_addresses']
-        collaborative = len(inputs) > 1 and max(Counter(c['output_sats']).values(), default=0) >= 3
+        # Meiklejohn et al. (IMC 2013), A Fistful of Bitcoins, common-input heuristic:
+        # https://conferences.sigcomm.org/imc/2013/papers/imc182-meiklejohnA.pdf
+        # Exclude many-in/many-out near-equal-output shapes from ownership clustering.
+        values = sorted(c['output_sats'])
+        collaborative = len(set(inputs)) > 1 and any(
+            values[i+2]-values[i] <= max(1,values[i]*.01) for i in range(max(0,len(values)-2)))
         if collaborative:
             mixers.add(txid)
         for a in inputs + outputs:
@@ -71,7 +76,9 @@ def context(db, window=60, hub_limit=20):
                          'ownership_verified':False})
         for a in members: memberships[a] = eid
     first_by_ip = defaultdict(list)
-    for r in db.execute('SELECT txid,src_ip,MIN(timestamp) AS stamp FROM observations WHERE src_ip IS NOT NULL GROUP BY txid,src_ip ORDER BY stamp'):
+    for r in db.execute("""SELECT txid,src_ip,timestamp AS stamp FROM observations o
+        WHERE src_ip IS NOT NULL AND timestamp=(SELECT MIN(timestamp) FROM observations first WHERE first.txid=o.txid AND first.src_ip IS NOT NULL)
+        GROUP BY txid,src_ip ORDER BY stamp"""):
         first_by_ip[r['src_ip']].append((datetime.fromisoformat(r['stamp']).timestamp(),r['txid']))
     associations, suppressed = [], 0
     for ip, observations in first_by_ip.items():
@@ -122,6 +129,7 @@ def enrich_profile(profile, ctx, records):
            'fee_rate_available':int(bool(rates)),'relay_associations':len(related)}
     profile['features'].update(extra)
     profile['entity_id']=ctx['membership'][address]
+    profile['hour_histogram']=[hours.get(h,0) for h in range(24)]
     profile['entity_members']=next(e['members'] for e in ctx['entities'] if e['id']==profile['entity_id'])
     for name, hits, strength, reason in (
         ('Peeling-chain pattern',ctx['peel'],.85,'Connected, time-ordered 2-output sequence with dominant continuation outputs; a payment workflow is an alternative.'),
@@ -132,6 +140,17 @@ def enrich_profile(profile, ctx, records):
     if profile['features']['max_fan_in']>=8:
         profile['rules'].append({'name':'High fan-in','strength':.55,'reason':'8+ inputs; consolidation can be benign.','txids':txids})
     profile['rule_score']=max((r['strength'] for r in profile['rules']),default=0)
+    mixed_inputs = set()
+    for txid in ctx['mixers']:
+        # Address reuse only *after* a mixing-shaped payment; never label generic reuse as that.
+        if address in ctx['outgoing'] and txid in ctx['address_txs'][address]:
+            mixed_inputs.add(txid)
+    mixer_times = {r['txid']:r['first_seen'] for r in records if r['txid'] in mixed_inputs}
+    later = [r['txid'] for r in records if mixer_times and r['first_seen'] > min(mixer_times.values())]
+    if later:
+        profile['rules'].append({'name':'Address reuse after mixing pattern','strength':.65,
+                                'reason':'Address participates in a mixing-shaped transaction and later spends again; collaborative spending is a benign alternative.',
+                                'txids':sorted(mixed_inputs)+later})
     profile['seed_distance']=distance
     profile['network_associations']=related[:50]
     profile['caveats'].append('Entity membership is a revisable heuristic; change and relay candidates are not merged.')

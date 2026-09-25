@@ -19,11 +19,17 @@ flowchart TD
     H --> R["Explainable pattern rules"]
     H --> I["Isolation Forest: chain-only and fused baselines"]
     H --> S["GraphSAGE classifier when explicit labels are supplied"]
+    H --> CP["ruptures PELT timeline changepoints"]
+    G --> TAINT["Chronological haircut seed exposure"]
+    G --> END["Downstream off-ramp candidates"]
     R --> J["Weighted priority fusion"]
     I --> J
     S --> J
+    CP --> J
+    TAINT --> J
     J --> K["Ranked leads, SHAP contributions, rules and uncertainty"]
     K --> L["Offline dashboard and graph-layer inspection"]
+    END --> L
     L --> M["Analyst review recorded in audit log"]
     L --> N["Signed PDF and evidence archive"]
     E --> N
@@ -78,4 +84,4 @@ Paths in this table are relative to the `parallax/` package unless fully qualifi
 4. Inspect SHAP contributions, rule evidence and uncertainty.
 5. Record an analyst decision, verify source/audit integrity and export the dossier.
 
-See [installation](INSTALLATION.md), [the timed presentation](DEMO_SCRIPT.md) and [feature status](FEATURE_STATUS.md). Amount-weighted taint, complete cluster-level dossiers and independent real-case validation are not represented as implemented features.
+See [installation](INSTALLATION.md), [the timed presentation](DEMO_SCRIPT.md), [measured submission results](SUBMISSION.md) and [feature status](FEATURE_STATUS.md). Amount-weighted address-account haircut estimates and cluster dossiers are implemented. Actual NTRO metadata and independent real-case validation remain external requirements.

@@ -25,6 +25,7 @@ class Review(BaseModel):
     address: str = Field(min_length=1, max_length=200)
     status: str
     reason: str = Field(min_length=5, max_length=2000)
+    false_positive: bool = False
 
 
 def create_app(data):
@@ -58,7 +59,8 @@ def create_app(data):
             counts["addresses"] = db.execute("SELECT COUNT(DISTINCT address) FROM flows").fetchone()[0]
             threshold=(get_meta(db,'model') or {}).get('priority_threshold',80)
             counts["high_priority"] = db.execute("SELECT COUNT(*) FROM alerts WHERE priority>=?",(threshold,)).fetchone()[0]
-            counts["review_priority"] = db.execute("SELECT COUNT(*) FROM alerts WHERE priority>=? AND priority<?",(.75*threshold,threshold)).fetchone()[0]
+            review_threshold=(get_meta(db,'model') or {}).get('review_threshold',.75*threshold)
+            counts["review_priority"] = db.execute("SELECT COUNT(*) FROM alerts WHERE priority>=? AND priority<?",(review_threshold,threshold)).fetchone()[0]
             counts["low_priority"] = counts["alerts"]-counts["high_priority"]-counts["review_priority"]
             counts["total_btc"] = db.execute("SELECT COALESCE(SUM(amount_sats),0)/100000000.0 FROM flows WHERE direction='output'").fetchone()[0]
             counts["reviewed"] = db.execute("SELECT COUNT(DISTINCT address) FROM reviews").fetchone()[0]
@@ -76,7 +78,8 @@ def create_app(data):
         db = connect(db_path)
         try:
             threshold=(get_meta(db,'model') or {}).get('priority_threshold',80)
-            low, high = {"all": (0, 101), "high": (threshold, 101), "review": (.75*threshold,threshold), "low": (0,.75*threshold)}.get(band, (0, 101))
+            review_threshold=(get_meta(db,'model') or {}).get('review_threshold',.75*threshold)
+            low, high = {"all": (0, 101), "high": (threshold, 101), "review": (review_threshold,threshold), "low": (0,review_threshold)}.get(band, (0, 101))
             params = [low, high, q, status, status]
             clause = """FROM alerts a WHERE priority>=? AND priority<? AND instr(a.address,?)>0
                 AND (?='all' OR COALESCE((SELECT r.status FROM reviews r WHERE r.address=a.address ORDER BY r.id DESC LIMIT 1),'New')=?)"""
@@ -133,6 +136,41 @@ def create_app(data):
 
     @app.post("/api/review")
     def review(body: Review):
+        from .triage import review_case
+        with lock:
+            try:
+                return review_case(data,body.address,body.status,body.reason,body.false_positive)
+            except KeyError:
+                raise HTTPException(404,"Profile not found")
+            except ValueError as e:
+                raise HTTPException(400,str(e))
+
+    @app.get("/api/fracture-config")
+    def fracture_config():
+        from .analysis import config
+        db=connect(db_path)
+        try: return config(db)
+        finally: db.close()
+
+    @app.post("/api/evasion")
+    def evasion():
+        from .adversary import attempt
+        with lock:
+            try: return attempt(data)
+            except ValueError as e: raise HTTPException(400,str(e))
+
+    @app.get("/api/audit-log")
+    def audit_log():
+        from .storage import canonical
+        db=connect(db_path)
+        try:
+            body="".join(canonical(dict(r))+"\n" for r in db.execute("SELECT * FROM audit ORDER BY seq"))
+            return Response(body,media_type="application/x-ndjson",
+                            headers={"Content-Disposition":'attachment; filename="original-audit.jsonl"'})
+        finally: db.close()
+
+    # Retained private implementation for old review clients is intentionally not routed.
+    def legacy_review(body: Review):
         if body.status not in ("New", "Triaging", "Escalated", "Dismissed") or len(body.reason.strip()) < 5:
             raise HTTPException(400, "Choose a valid state and give a meaningful review reason")
         with lock:

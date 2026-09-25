@@ -1,27 +1,38 @@
-# Feature status — September 19, 2026
+# Working-plan status — 25 September 2026
 
-**A working offline research prototype exists. The entire aspirational plan is not fully completed or independently validated.** UI demonstrations and passing unit tests do not establish real-world investigative performance.
+Implemented features are mapped to the supplied 13-stage plan below. “Implemented”
+means working code with stated scope; it does not mean independent forensic validation.
 
-| Planned capability | Implementation and evidence | Remaining limitation |
+| Step | Delivered implementation | Scope or remaining dependency |
 |---|---|---|
-| CSV/JSON/XML bulk ingestion | Streaming readers, aliases, integer satoshis, validation, quarantine; format tests | Full graph/ML processing remains in memory; no large-scale benchmark claim |
-| Evidence log | Source SHA-256, record hashes, chained audit log, materialized-state and source verification | Application append-only behavior; not immutable storage or trusted external timestamping |
-| Schema mapping | Known aliases and unknown-field reports | No interactive field-remapping editor |
-| Offline GeoIP/ASN and Tor | Local MMDB enrichment and dated local Tor snapshot support | Real MMDB files must be supplied; not included or validated here |
-| Entity resolution | Conservative common-input clusters, change candidates, UTC normalization | Change candidates are hypotheses, not automatically merged; no verified owners |
-| Unified graph | Address, candidate wallet entity, transaction and IP views; weak shared-relay associations | Display bounded for responsiveness; observed relay is not origin attribution |
-| Features and rules | Structural, temporal, economic, reuse, fan patterns, peeling and collaborative-spend heuristics | Mixer-like shape is not a validated mixer-service identifier; seed distance is not amount-weighted taint |
-| Isolation Forest | Working trained model, chain-only baseline, fused features | Synthetic calibration does not establish operational reliability |
-| GraphSAGE | Working trained two-layer classifier with explicit synthetic labels | No RGCN/HGT; neighborhood sampling and synthetic training constrain conclusions |
-| Fusion score | Weighted components, missing-input handling, calibrated priority threshold | Heuristic priority, not probability of criminality; evidence completeness is not a statistical confidence interval |
-| Explainability | Tree SHAP, rule evidence, highlighted graph and caveats | SHAP explains Isolation Forest path length, not causality |
-| Dashboard | Redesigned charts, graph layers, search, filters, reviews, source integrity, exports | Local analyst workstation; no multi-user authentication or case-management server |
-| Signed dossier | PDF, JSON, records and Ed25519-signed manifest; detached PDF signature | Export is selected-address centered, not a complete aggregated cluster dossier; not an Adobe/PAdES certificate |
-| Evaluation | Held-out synthetic Precision@20, recall, FPR, baselines, calibration | Actual NTRO transaction dataset and independent real-world labels not tested |
-| Adversarial simulation | Strategy mutation and per-scenario reports | Limited evasion families; does not cover every peel/mixer technique |
-| Published case pattern | Synthetic replay inspired by publicly documented laundering behavior | Not a reconstruction from real case transaction records; not external validity |
-| Feedback / drift | Explicit feedback retraining, holdout Brier; distribution diagnostic | Diagnostic drift threshold, not comprehensive validated drift monitoring |
-| Linux delivery | Linux-compatible Python package, installer, Dockerfile and Ubuntu CI workflow | Linux execution must be confirmed by CI or teammate; only Mac execution checked locally |
-| Offline runtime | Local assets/models; no runtime API or CDN dependencies; blocked-network inference test | Online dependency provisioning or matching offline wheelhouse required first |
+| 1. Ingestion and evidence | Streaming CSV/JSON/XML; bounded Polars batches and DuckDB staging; SQLite evidence store; source/row hashes and audit chain | Full feature/graph stages remain in memory. Append-only application log needs a separately retained anchor |
+| 2. Mapping and parsing | Aliases, explicit mapping file, UTC, satoshis, network/blockchain fields, unknown-field report | Unknown schemas may require an operator mapping |
+| 3. Entity resolution | Union-find common-input candidates with Meiklejohn citation; conservative collaborative-spend exclusion; quarantine and local MMDB support | Clusters are hypotheses. GeoIP databases must be supplied locally |
+| 4. Unified graph | Candidate entities, addresses, transactions and observed IPs; financial flow and shared first-observation associations; layer toggle | Observed relay is not transaction origin. Views are bounded |
+| 5. Features | Degree, seed distance, amounts, round-number ratio, fee-rate variation, interval entropy and 24-hour histogram | Fee-rate feature measures within-profile variation, not comparison to a live fee market |
+| 6. Detection | Rules, trained Isolation Forest, ruptures PELT behavioral changepoints, trained GraphSAGE | GraphSAGE uses native PyTorch mean aggregation, not PyG; no fallback needed for the converged tested model. Short histories return insufficient-history |
+| 7. Taint | Chronological amount-weighted haircut estimate with 0.9 decay, synthetic seeds, local CSV references and historical OFAC sample | No UTXO outpoints: address-account approximation. Historical OFAC sample is not a current complete sanctions list |
+| 8. Endpoints | Bounded downstream candidates from local exchange references or terminal nodes with multiple funders | KYC/account identity cannot be inferred from deposit sizes; candidates are explicitly unverified |
+| 9. Fracture Index | Exact five-component configured weighted sum; Low/Moderate/High score bands; missingness coverage; audited weight updates | Bands are priority categories, not calibrated certainty. Missing evidence contributes zero and can suppress high alerts |
+| 10. Explainability | SHAP, rule TXIDs, evidence-derived notes, supporting path subgraph and uncertainty | Evidence-selected graph is not a mathematically minimum graph; notes avoid claims not supported by fields |
+| 11. Adversarial harness | Peel, fan-out, mixing and jitter actors; detector-triggered fresh-address/timing/mixer/co-input mutations; all rounds and failures reported | Existing published-pattern replay is DOJ-inspired synthetic data. Real Elliptic topology cross-check remains unavailable |
+| 12. Independent verification | Cluster PDF/JSON, graph SVG, complete selected records, score snapshot, detached signatures; standalone verifier against original audit | Requires a separately trusted key/log; cannot certify truth of original metadata or legal admissibility |
+| 13. Dashboard | Styled local dashboard plus Streamlit; ranked leads, SHAP, drift, taint, endpoint candidates, case notes, graph layers, evasion, integrity checks and triage | Single local analyst workstation, not a multi-user case-management server |
 
-The 90-second video can credibly demonstrate the core analysis-to-evidence workflow. Keep extended verification and installation evidence available for questions. Do not present optional stretch work or externally dependent features as fully verified.
+## Submission evidence
+
+The `submission/2026-09-25/` folder contains measured evaluation, adaptive report,
+sample signed PDF/ZIP, original audit log, public key, independent verifier and
+verification result. No private key is included. The sample dossier comes from
+the explicitly seeded simulation; it must not be described as an NTRO real case.
+
+## External requirements still outstanding
+
+1. **Actual NTRO metadata run:** the earlier supplied download was a PDF brief.
+   A transaction CSV/JSON/XML file is needed.
+2. **Independent real topology:** no Elliptic edge list or documented case
+   transaction graph was supplied. Public research is cited, not fabricated.
+3. **GeoIP coverage:** provide licensed local MMDB files before claiming enriched
+   country/ASN coverage.
+4. **Linux acceptance:** see SUBMISSION.md for the actual run status; a Dockerfile
+   or workflow template alone is not execution evidence.

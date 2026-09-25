@@ -102,6 +102,16 @@ def parser():
     inspect.add_argument('file')
     seed=sub.add_parser('seeds',help='Set independently sourced seed addresses')
     seed.add_argument('--db',required=True); seed.add_argument('--file',required=True)
+    refs=sub.add_parser('references',help='Import local seed or exchange CSV/JSON references')
+    refs.add_argument('--db',required=True); refs.add_argument('--file',required=True)
+    refs.add_argument('--kind',choices=('seeds','exchanges'),default='seeds')
+    log=sub.add_parser('export-audit',help='Retain the original audit chain separately')
+    log.add_argument('--db',required=True); log.add_argument('--out',required=True)
+    adv=sub.add_parser('adversarial',help='Run adaptive actor-level stress validation')
+    adv.add_argument('--model',required=True); adv.add_argument('--out',required=True)
+    adv.add_argument('--rounds',type=int,default=3)
+    ui=sub.add_parser('streamlit',help='Launch the local Streamlit investigation dashboard')
+    ui.add_argument('--data',default='data/demo'); ui.add_argument('--port',type=int,default=8501)
     fb=sub.add_parser('feedback',help='Train a new ensemble version from explicit analyst 0/1 labels')
     fb.add_argument('--db',required=True); fb.add_argument('--model',required=True)
     fb.add_argument('--labels',required=True); fb.add_argument('--out',required=True)
@@ -134,6 +144,28 @@ def main():
             result = train(args.db, args.out, args.calibration_db, args.labels,graph_labels=args.graph_labels)
         elif args.command == "score":
             result = score(args.db, args.model)
+        elif args.command == 'references':
+            from .analysis import import_references
+            result=import_references(args.db,args.file,args.kind)
+        elif args.command == 'export-audit':
+            from .storage import canonical
+            db=connect(args.db)
+            try:
+                with Path(args.out).open('x') as stream:
+                    for row in db.execute('SELECT * FROM audit ORDER BY seq'):
+                        stream.write(canonical(dict(row))+'\n')
+            finally: db.close()
+            result={'exported':args.out}
+        elif args.command == 'adversarial':
+            from .adversary import run
+            if not 1 <= args.rounds <= 12: raise ValueError('Choose 1 to 12 rounds')
+            result=run(args.model,args.out,args.rounds)
+        elif args.command == 'streamlit':
+            import subprocess
+            raise SystemExit(subprocess.call([sys.executable,'-m','streamlit','run',
+                str(Path(__file__).with_name('streamlit_app.py')),'--server.address=127.0.0.1',
+                '--server.port='+str(args.port),'--browser.gatherUsageStats=false',
+                '--server.headless=true','--',str(Path(args.data).resolve())]))
         elif args.command == "evaluate":
             result = evaluate(args.db, args.model, args.labels, args.out)
         elif args.command == "verify-audit":

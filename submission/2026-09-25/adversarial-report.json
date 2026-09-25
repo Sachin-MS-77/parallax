@@ -1,0 +1,1842 @@
+{
+  "scope": "Seed-assisted synthetic actor-level stress test; not held-out operational performance",
+  "rounds": [
+    {
+      "round": 0,
+      "actors": [
+        {
+          "actor": "actor-0",
+          "label": 1,
+          "technique": "peel_chain",
+          "priority": 83.36,
+          "address": "sim_actor-0_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.5941005880827629,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.9886083602905273,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.6867798587820106,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 1.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 1,
+          "detected": true
+        },
+        {
+          "actor": "actor-1",
+          "label": 1,
+          "technique": "fan_out",
+          "priority": 83.51,
+          "address": "sim_actor-1_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.5941005880827629,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.9962338805198669,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.6867798587820106,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 1.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 1,
+          "detected": true
+        },
+        {
+          "actor": "actor-2",
+          "label": 1,
+          "technique": "mixer_hops",
+          "priority": 83.25,
+          "address": "sim_actor-2_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.5807308485106651,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.6867798587820106,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 1.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 13,
+          "detected": true
+        },
+        {
+          "actor": "actor-3",
+          "label": 1,
+          "technique": "timing_jitter",
+          "priority": 52.95,
+          "address": "sim_actor-3_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.5941005880827629,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.905,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 1,
+          "detected": false
+        },
+        {
+          "actor": "actor-4",
+          "label": 1,
+          "technique": "peel_chain",
+          "priority": 83.36,
+          "address": "sim_actor-4_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.5941005880827629,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.9886083602905273,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.6867798587820106,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 1.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 1,
+          "detected": true
+        },
+        {
+          "actor": "actor-5",
+          "label": 1,
+          "technique": "fan_out",
+          "priority": 83.51,
+          "address": "sim_actor-5_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.5941005880827629,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.9962338805198669,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.6867798587820106,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 1.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 1,
+          "detected": true
+        },
+        {
+          "actor": "actor-6",
+          "label": 1,
+          "technique": "mixer_hops",
+          "priority": 83.25,
+          "address": "sim_actor-6_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.5807308485106651,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.6867798587820106,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 1.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 13,
+          "detected": true
+        },
+        {
+          "actor": "actor-7",
+          "label": 1,
+          "technique": "timing_jitter",
+          "priority": 62.7,
+          "address": "sim_actor-7_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.5941005880827629,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.9,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.49255,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 1,
+          "detected": true
+        },
+        {
+          "actor": "actor-8",
+          "label": 0,
+          "technique": "peel_chain",
+          "priority": 38.5,
+          "address": "sim_actor-8_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        },
+        {
+          "actor": "actor-9",
+          "label": 0,
+          "technique": "fan_out",
+          "priority": 38.5,
+          "address": "sim_actor-9_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        },
+        {
+          "actor": "actor-10",
+          "label": 0,
+          "technique": "mixer_hops",
+          "priority": 38.5,
+          "address": "sim_actor-10_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        },
+        {
+          "actor": "actor-11",
+          "label": 0,
+          "technique": "timing_jitter",
+          "priority": 38.5,
+          "address": "sim_actor-11_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        },
+        {
+          "actor": "actor-12",
+          "label": 0,
+          "technique": "peel_chain",
+          "priority": 38.5,
+          "address": "sim_actor-12_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        },
+        {
+          "actor": "actor-13",
+          "label": 0,
+          "technique": "fan_out",
+          "priority": 38.5,
+          "address": "sim_actor-13_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        },
+        {
+          "actor": "actor-14",
+          "label": 0,
+          "technique": "mixer_hops",
+          "priority": 38.5,
+          "address": "sim_actor-14_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        },
+        {
+          "actor": "actor-15",
+          "label": 0,
+          "technique": "timing_jitter",
+          "priority": 38.5,
+          "address": "sim_actor-15_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        }
+      ],
+      "metrics": {
+        "precision_at_20": 0.5,
+        "k_used": 16,
+        "precision": 1.0,
+        "recall": 0.875,
+        "false_positive_rate": 0.0,
+        "average_precision": 1.0,
+        "threshold": 0.60000001,
+        "alerts": 7,
+        "positives": 8,
+        "profiles": 16
+      },
+      "per_technique": {
+        "peel_chain": {
+          "precision_at_20": 0.2,
+          "k_used": 10,
+          "precision": 1.0,
+          "recall": 1.0,
+          "false_positive_rate": 0.0,
+          "average_precision": 1.0,
+          "threshold": 0.60000001,
+          "alerts": 2,
+          "positives": 2,
+          "profiles": 10
+        },
+        "fan_out": {
+          "precision_at_20": 0.2,
+          "k_used": 10,
+          "precision": 1.0,
+          "recall": 1.0,
+          "false_positive_rate": 0.0,
+          "average_precision": 1.0,
+          "threshold": 0.60000001,
+          "alerts": 2,
+          "positives": 2,
+          "profiles": 10
+        },
+        "mixer_hops": {
+          "precision_at_20": 0.2,
+          "k_used": 10,
+          "precision": 1.0,
+          "recall": 1.0,
+          "false_positive_rate": 0.0,
+          "average_precision": 1.0,
+          "threshold": 0.60000001,
+          "alerts": 2,
+          "positives": 2,
+          "profiles": 10
+        },
+        "timing_jitter": {
+          "precision_at_20": 0.2,
+          "k_used": 10,
+          "precision": 1.0,
+          "recall": 0.5,
+          "false_positive_rate": 0.0,
+          "average_precision": 1.0,
+          "threshold": 0.60000001,
+          "alerts": 1,
+          "positives": 2,
+          "profiles": 10
+        }
+      }
+    },
+    {
+      "round": 1,
+      "actors": [
+        {
+          "actor": "actor-0",
+          "label": 1,
+          "technique": "peel_chain",
+          "priority": 57.0,
+          "address": "sim_actor-0_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.9,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.975,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 1.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 12,
+          "detected": false
+        },
+        {
+          "actor": "actor-1",
+          "label": 1,
+          "technique": "fan_out",
+          "priority": 57.4,
+          "address": "sim_actor-1_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.9,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.995,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 1.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 12,
+          "detected": false
+        },
+        {
+          "actor": "actor-2",
+          "label": 1,
+          "technique": "mixer_hops",
+          "priority": 73.71,
+          "address": "sim_actor-2_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.20282327385393015,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.995,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.6867798587820106,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 1.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 13,
+          "detected": true
+        },
+        {
+          "actor": "actor-3",
+          "label": 1,
+          "technique": "timing_jitter",
+          "priority": 52.95,
+          "address": "sim_actor-3_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.5941005880827629,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.905,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 1,
+          "detected": false
+        },
+        {
+          "actor": "actor-4",
+          "label": 1,
+          "technique": "peel_chain",
+          "priority": 57.0,
+          "address": "sim_actor-4_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.9,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.975,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 1.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 12,
+          "detected": false
+        },
+        {
+          "actor": "actor-5",
+          "label": 1,
+          "technique": "fan_out",
+          "priority": 57.4,
+          "address": "sim_actor-5_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.9,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.995,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 1.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 12,
+          "detected": false
+        },
+        {
+          "actor": "actor-6",
+          "label": 1,
+          "technique": "mixer_hops",
+          "priority": 73.71,
+          "address": "sim_actor-6_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.20282327385393015,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.995,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.6867798587820106,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 1.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 13,
+          "detected": true
+        },
+        {
+          "actor": "actor-7",
+          "label": 1,
+          "technique": "timing_jitter",
+          "priority": 42.0,
+          "address": "sim_actor-7_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.9,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.975,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 12,
+          "detected": false
+        },
+        {
+          "actor": "actor-8",
+          "label": 0,
+          "technique": "peel_chain",
+          "priority": 38.5,
+          "address": "sim_actor-8_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        },
+        {
+          "actor": "actor-9",
+          "label": 0,
+          "technique": "fan_out",
+          "priority": 38.5,
+          "address": "sim_actor-9_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        },
+        {
+          "actor": "actor-10",
+          "label": 0,
+          "technique": "mixer_hops",
+          "priority": 38.5,
+          "address": "sim_actor-10_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        },
+        {
+          "actor": "actor-11",
+          "label": 0,
+          "technique": "timing_jitter",
+          "priority": 38.5,
+          "address": "sim_actor-11_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        },
+        {
+          "actor": "actor-12",
+          "label": 0,
+          "technique": "peel_chain",
+          "priority": 38.5,
+          "address": "sim_actor-12_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        },
+        {
+          "actor": "actor-13",
+          "label": 0,
+          "technique": "fan_out",
+          "priority": 38.5,
+          "address": "sim_actor-13_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        },
+        {
+          "actor": "actor-14",
+          "label": 0,
+          "technique": "mixer_hops",
+          "priority": 38.5,
+          "address": "sim_actor-14_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        },
+        {
+          "actor": "actor-15",
+          "label": 0,
+          "technique": "timing_jitter",
+          "priority": 38.5,
+          "address": "sim_actor-15_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        }
+      ],
+      "metrics": {
+        "precision_at_20": 0.5,
+        "k_used": 16,
+        "precision": 1.0,
+        "recall": 0.25,
+        "false_positive_rate": 0.0,
+        "average_precision": 1.0,
+        "threshold": 0.60000001,
+        "alerts": 2,
+        "positives": 8,
+        "profiles": 16
+      },
+      "per_technique": {
+        "peel_chain": {
+          "precision_at_20": 0.2,
+          "k_used": 10,
+          "precision": 0.0,
+          "recall": 0.0,
+          "false_positive_rate": 0.0,
+          "average_precision": 1.0,
+          "threshold": 0.60000001,
+          "alerts": 0,
+          "positives": 2,
+          "profiles": 10
+        },
+        "fan_out": {
+          "precision_at_20": 0.2,
+          "k_used": 10,
+          "precision": 0.0,
+          "recall": 0.0,
+          "false_positive_rate": 0.0,
+          "average_precision": 1.0,
+          "threshold": 0.60000001,
+          "alerts": 0,
+          "positives": 2,
+          "profiles": 10
+        },
+        "mixer_hops": {
+          "precision_at_20": 0.2,
+          "k_used": 10,
+          "precision": 1.0,
+          "recall": 1.0,
+          "false_positive_rate": 0.0,
+          "average_precision": 1.0,
+          "threshold": 0.60000001,
+          "alerts": 2,
+          "positives": 2,
+          "profiles": 10
+        },
+        "timing_jitter": {
+          "precision_at_20": 0.2,
+          "k_used": 10,
+          "precision": 0.0,
+          "recall": 0.0,
+          "false_positive_rate": 0.0,
+          "average_precision": 1.0,
+          "threshold": 0.60000001,
+          "alerts": 0,
+          "positives": 2,
+          "profiles": 10
+        }
+      }
+    },
+    {
+      "round": 2,
+      "actors": [
+        {
+          "actor": "actor-0",
+          "label": 1,
+          "technique": "peel_chain",
+          "priority": 57.0,
+          "address": "sim_actor-0_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.9,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.975,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 1.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 12,
+          "detected": false
+        },
+        {
+          "actor": "actor-1",
+          "label": 1,
+          "technique": "fan_out",
+          "priority": 57.4,
+          "address": "sim_actor-1_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.9,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.995,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 1.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 12,
+          "detected": false
+        },
+        {
+          "actor": "actor-2",
+          "label": 1,
+          "technique": "mixer_hops",
+          "priority": 57.1,
+          "address": "sim_actor-2_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.9,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.98,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 1.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 24,
+          "detected": false
+        },
+        {
+          "actor": "actor-3",
+          "label": 1,
+          "technique": "timing_jitter",
+          "priority": 52.95,
+          "address": "sim_actor-3_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.5941005880827629,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.905,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 1,
+          "detected": false
+        },
+        {
+          "actor": "actor-4",
+          "label": 1,
+          "technique": "peel_chain",
+          "priority": 57.0,
+          "address": "sim_actor-4_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.9,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.975,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 1.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 12,
+          "detected": false
+        },
+        {
+          "actor": "actor-5",
+          "label": 1,
+          "technique": "fan_out",
+          "priority": 57.4,
+          "address": "sim_actor-5_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.9,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.995,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 1.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 12,
+          "detected": false
+        },
+        {
+          "actor": "actor-6",
+          "label": 1,
+          "technique": "mixer_hops",
+          "priority": 57.1,
+          "address": "sim_actor-6_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.9,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.98,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 1.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 24,
+          "detected": false
+        },
+        {
+          "actor": "actor-7",
+          "label": 1,
+          "technique": "timing_jitter",
+          "priority": 42.0,
+          "address": "sim_actor-7_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.9,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.975,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 12,
+          "detected": false
+        },
+        {
+          "actor": "actor-8",
+          "label": 0,
+          "technique": "peel_chain",
+          "priority": 38.5,
+          "address": "sim_actor-8_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        },
+        {
+          "actor": "actor-9",
+          "label": 0,
+          "technique": "fan_out",
+          "priority": 38.5,
+          "address": "sim_actor-9_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        },
+        {
+          "actor": "actor-10",
+          "label": 0,
+          "technique": "mixer_hops",
+          "priority": 38.5,
+          "address": "sim_actor-10_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        },
+        {
+          "actor": "actor-11",
+          "label": 0,
+          "technique": "timing_jitter",
+          "priority": 38.5,
+          "address": "sim_actor-11_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        },
+        {
+          "actor": "actor-12",
+          "label": 0,
+          "technique": "peel_chain",
+          "priority": 38.5,
+          "address": "sim_actor-12_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        },
+        {
+          "actor": "actor-13",
+          "label": 0,
+          "technique": "fan_out",
+          "priority": 38.5,
+          "address": "sim_actor-13_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        },
+        {
+          "actor": "actor-14",
+          "label": 0,
+          "technique": "mixer_hops",
+          "priority": 38.5,
+          "address": "sim_actor-14_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        },
+        {
+          "actor": "actor-15",
+          "label": 0,
+          "technique": "timing_jitter",
+          "priority": 38.5,
+          "address": "sim_actor-15_wallet",
+          "subscores": {
+            "taint": {
+              "value": 0.0,
+              "weight": 0.25
+            },
+            "behavioral_link": {
+              "value": 0.925,
+              "weight": 0.2
+            },
+            "timing": {
+              "value": 0.0,
+              "weight": 0.2
+            },
+            "address_reuse": {
+              "value": 1.0,
+              "weight": 0.2
+            },
+            "network_exposure": {
+              "value": 0.0,
+              "weight": 0.15
+            }
+          },
+          "profile_count": 2,
+          "detected": false
+        }
+      ],
+      "metrics": {
+        "precision_at_20": 0.5,
+        "k_used": 16,
+        "precision": 0.0,
+        "recall": 0.0,
+        "false_positive_rate": 0.0,
+        "average_precision": 1.0,
+        "threshold": 0.60000001,
+        "alerts": 0,
+        "positives": 8,
+        "profiles": 16
+      },
+      "per_technique": {
+        "peel_chain": {
+          "precision_at_20": 0.2,
+          "k_used": 10,
+          "precision": 0.0,
+          "recall": 0.0,
+          "false_positive_rate": 0.0,
+          "average_precision": 1.0,
+          "threshold": 0.60000001,
+          "alerts": 0,
+          "positives": 2,
+          "profiles": 10
+        },
+        "fan_out": {
+          "precision_at_20": 0.2,
+          "k_used": 10,
+          "precision": 0.0,
+          "recall": 0.0,
+          "false_positive_rate": 0.0,
+          "average_precision": 1.0,
+          "threshold": 0.60000001,
+          "alerts": 0,
+          "positives": 2,
+          "profiles": 10
+        },
+        "mixer_hops": {
+          "precision_at_20": 0.2,
+          "k_used": 10,
+          "precision": 0.0,
+          "recall": 0.0,
+          "false_positive_rate": 0.0,
+          "average_precision": 1.0,
+          "threshold": 0.60000001,
+          "alerts": 0,
+          "positives": 2,
+          "profiles": 10
+        },
+        "timing_jitter": {
+          "precision_at_20": 0.2,
+          "k_used": 10,
+          "precision": 0.0,
+          "recall": 0.0,
+          "false_positive_rate": 0.0,
+          "average_precision": 1.0,
+          "threshold": 0.60000001,
+          "alerts": 0,
+          "positives": 2,
+          "profiles": 10
+        }
+      }
+    }
+  ],
+  "mutations": [
+    [
+      {
+        "actor": "actor-0",
+        "trigger": "address_reuse",
+        "mutation": "fresh",
+        "before_priority": 83.36
+      },
+      {
+        "actor": "actor-1",
+        "trigger": "address_reuse",
+        "mutation": "fresh",
+        "before_priority": 83.51
+      },
+      {
+        "actor": "actor-2",
+        "trigger": "behavioral_link",
+        "mutation": "utxo",
+        "before_priority": 83.25
+      },
+      {
+        "actor": "actor-4",
+        "trigger": "address_reuse",
+        "mutation": "fresh",
+        "before_priority": 83.36
+      },
+      {
+        "actor": "actor-5",
+        "trigger": "address_reuse",
+        "mutation": "fresh",
+        "before_priority": 83.51
+      },
+      {
+        "actor": "actor-6",
+        "trigger": "behavioral_link",
+        "mutation": "utxo",
+        "before_priority": 83.25
+      },
+      {
+        "actor": "actor-7",
+        "trigger": "address_reuse",
+        "mutation": "fresh",
+        "before_priority": 62.7
+      }
+    ],
+    [
+      {
+        "actor": "actor-2",
+        "trigger": "address_reuse",
+        "mutation": "fresh",
+        "before_priority": 73.71
+      },
+      {
+        "actor": "actor-6",
+        "trigger": "address_reuse",
+        "mutation": "fresh",
+        "before_priority": 73.71
+      }
+    ]
+  ],
+  "truth": [
+    {
+      "id": "actor-0",
+      "label": 1,
+      "family": "peel_chain"
+    },
+    {
+      "id": "actor-1",
+      "label": 1,
+      "family": "fan_out"
+    },
+    {
+      "id": "actor-2",
+      "label": 1,
+      "family": "mixer_hops"
+    },
+    {
+      "id": "actor-3",
+      "label": 1,
+      "family": "timing_jitter"
+    },
+    {
+      "id": "actor-4",
+      "label": 1,
+      "family": "peel_chain"
+    },
+    {
+      "id": "actor-5",
+      "label": 1,
+      "family": "fan_out"
+    },
+    {
+      "id": "actor-6",
+      "label": 1,
+      "family": "mixer_hops"
+    },
+    {
+      "id": "actor-7",
+      "label": 1,
+      "family": "timing_jitter"
+    },
+    {
+      "id": "actor-8",
+      "label": 0,
+      "family": "peel_chain"
+    },
+    {
+      "id": "actor-9",
+      "label": 0,
+      "family": "fan_out"
+    },
+    {
+      "id": "actor-10",
+      "label": 0,
+      "family": "mixer_hops"
+    },
+    {
+      "id": "actor-11",
+      "label": 0,
+      "family": "timing_jitter"
+    },
+    {
+      "id": "actor-12",
+      "label": 0,
+      "family": "peel_chain"
+    },
+    {
+      "id": "actor-13",
+      "label": 0,
+      "family": "fan_out"
+    },
+    {
+      "id": "actor-14",
+      "label": 0,
+      "family": "mixer_hops"
+    },
+    {
+      "id": "actor-15",
+      "label": 0,
+      "family": "timing_jitter"
+    }
+  ],
+  "limitations": [
+    "Mutations are chosen only for flagged positive actors.",
+    "All misses and unchanged/increased scores are retained.",
+    "Seed-origin transactions are excluded from actor detection scores.",
+    "Fixtures model metadata and declared values, not consensus-valid Bitcoin UTXOs."
+  ]
+}

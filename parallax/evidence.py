@@ -44,6 +44,8 @@ def get_alert(db, address):
 
 def dossier(db, address, key_dir):
     alert = get_alert(db, address)
+    members = alert.get("entity_members",[address])
+    cluster_alerts = [get_alert(db,m) for m in members if db.execute("SELECT 1 FROM alerts WHERE address=?",(m,)).fetchone()]
     integrity = verify_state(db)
     if not integrity["valid"]:
         raise ValueError("Audit trail failed verification; export refused")
@@ -52,11 +54,19 @@ def dossier(db, address, key_dir):
         if not Path(source["stored_path"]).is_file() or file_hash(source["stored_path"]) != source["hash"]:
             raise ValueError("Archived source failed integrity verification")
         source.pop("stored_path")
-    observations = [dict(r) for r in db.execute("""SELECT o.* FROM observations o JOIN
-       (SELECT DISTINCT txid FROM flows WHERE address=?) f ON f.txid=o.txid ORDER BY o.timestamp""", (address,))]
+    txids = {r[0] for member in members for r in db.execute("SELECT DISTINCT txid FROM flows WHERE address=?",(member,))}
+    from .proofgraph import minimal_graph, drawing
+    proof = minimal_graph(db,cluster_alerts)
+    txids.update(proof['txids'])
+    observations = [dict(r) for txid in sorted(txids) for r in db.execute("SELECT * FROM observations WHERE txid=? ORDER BY timestamp,id",(txid,))]
+    transactions = [dict(db.execute("SELECT * FROM transactions WHERE txid=?",(txid,)).fetchone()) for txid in sorted(txids)]
+    original_log = b"".join((canonical(dict(r))+"\n").encode() for r in db.execute("SELECT * FROM audit ORDER BY seq"))
     payload = {"format": "parallax-case-v1", "exported_at": datetime.now(timezone.utc).isoformat(),
                "scope": "Investigative lead only; no ownership attribution or legal certification",
-               "alert": alert, "graph": graph(db, address, limit=30), "observations": observations,
+               "alert": alert, "graph": proof, "observations": observations,
+               "cluster": {"id":alert['entity_id'],"members":members,"alerts":cluster_alerts,
+                           "ownership_verified":False,"unique_transactions":len(txids)},
+               "transactions":transactions,
                "sources": sources, "model": get_meta(db, "model"), "audit_anchor": integrity}
     case_bytes = canonical(payload).encode()
     # Print-friendly offline HTML is covered by the signed manifest too.
@@ -71,7 +81,11 @@ def dossier(db, address, key_dir):
 <p>The companion case.json contains the complete exported evidence. Verify the signed manifest with a separately trusted public key.</p></body></html>""".encode()
     pdf = report_pdf(payload)
     key, public = keypair(key_dir)
+    from reportlab.graphics import renderSVG
     files = {"case.json": case_bytes, "report.html": report, "report.pdf":pdf,
+             "subgraph.svg":renderSVG.drawToString(drawing(proof)).encode(),
+             "audit.jsonl":original_log,
+             "scoring-snapshot.json":canonical([json.loads(r[0]) for r in db.execute("SELECT payload FROM alerts ORDER BY priority DESC,address")]).encode(),
              "report.pdf.sig":base64.b64encode(key.sign(pdf))}
     manifest = {"format": "parallax-signature-v1", "algorithm": "Ed25519",
                 "files": {name: hashlib.sha256(body).hexdigest() for name, body in files.items()}}
@@ -102,6 +116,8 @@ def verify_dossier(path, trusted_public_key=None):
         Ed25519PublicKey.from_public_bytes(public).verify(base64.b64decode(z.read("signature.txt")), body)
         manifest = json.loads(body)
         expected_files = {'case.json','report.html','report.pdf','report.pdf.sig'} if 'report.pdf' in manifest['files'] else {'case.json','report.html'}
+        if 'audit.jsonl' in manifest['files']:
+            expected_files |= {'audit.jsonl','subgraph.svg','scoring-snapshot.json'}
         if set(manifest["files"]) != expected_files or set(names) != expected_files | {"manifest.json", "signature.txt", "public-key.txt"}:
             raise ValueError("Unexpected dossier contents")
         for name, expected in manifest["files"].items():

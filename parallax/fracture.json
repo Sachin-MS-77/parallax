@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "weights": {"taint": 0.25, "behavioral_link": 0.20, "timing": 0.20, "address_reuse": 0.20, "network_exposure": 0.15},
+  "decay": 0.9,
+  "feedback_rate": 0.15,
+  "notes": "Heuristic priority weights. Bands describe score severity, not calibrated certainty of wrongdoing."
+}
