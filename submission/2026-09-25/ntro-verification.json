@@ -1,0 +1,8 @@
+{
+  "valid": true,
+  "original_log_entries": 4308,
+  "signed_anchor": "b86a8f4322757c5f59e631d6dd432df86ca52a9edff85d845ec141b9a73e4269",
+  "cluster_members": 1,
+  "observations": 1,
+  "scope": "Signatures, original hash-chain prefix, score snapshot and normalized records checked independently"
+}

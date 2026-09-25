@@ -62,6 +62,22 @@ parallax serve --data data/offline-demo --port 8877
 
 Installation downloads dependencies unless using the offline wheelhouse. Analysis runs locally afterward. GeoIP requires separately obtained local Country/ASN MMDB files; never imply their absence is suspicious.
 
+MaxMind requires a free account and license key for GeoLite2 downloads. After
+accepting its license, download without placing credentials in Git:
+
+```bash
+export MAXMIND_ACCOUNT_ID='your-account-id'
+export MAXMIND_LICENSE_KEY='your-license-key'
+bash scripts/download_geolite.sh data/geolite2
+parallax ingest input.json --db case.sqlite \
+  --country-db data/geolite2/GeoLite2-Country.mmdb \
+  --asn-db data/geolite2/GeoLite2-ASN.mmdb
+```
+
+The repository intentionally does not redistribute a GeoLite2 database or
+invent a substitute MMDB. The source and license notice must travel with the
+offline copy.
+
 ## GitHub handoff
 
 Source, tests, scripts, docs and the reviewed synthetic submission sample belong in Git. Generated case databases, private signing keys, virtual environments and wheelhouses are ignored. Do not copy a generated case folder to GitHub.

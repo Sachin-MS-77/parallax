@@ -69,6 +69,8 @@ def parser():
     i.add_argument("--asn-db")
     i.add_argument('--tor-snapshot')
     i.add_argument('--max-gap-seconds',type=float)
+    i.add_argument('--allow-fee-mismatch', action='store_true',
+                   help='Accept a reported fee that differs from input minus output; retain computed fee and audit the discrepancy')
     t = sub.add_parser("train", help="Train from representative reference data")
     t.add_argument("--db", required=True)
     t.add_argument("--out", required=True)
@@ -134,7 +136,7 @@ def main():
             result = generate(args.out, args.split, args.entities)
         elif args.command == "ingest":
             mapping = json.loads(Path(args.mapping).read_text()) if args.mapping else None
-            result = ingest(args.file, args.db, mapping, args.country_db, args.asn_db,args.tor_snapshot,args.max_gap_seconds)
+            result = ingest(args.file, args.db, mapping, args.country_db, args.asn_db,args.tor_snapshot,args.max_gap_seconds,args.allow_fee_mismatch)
             db = connect(args.db)
             with db:
                 set_meta(db, "domain", "unknown")
@@ -202,7 +204,10 @@ def main():
             if magic.startswith(b'%PDF'):
                 raise ValueError('This file is a PDF document, not CSV/JSON/XML transaction metadata')
             iterator=records(path); sample=next(iterator,None)
-            result={'sha256':file_hash(path),'bytes':path.stat().st_size,'sample_fields':sorted(sample) if isinstance(sample,dict) else [],'sample':sample}
+            # ijson uses Decimal for JSON numbers; normalize the preview so the
+            # CLI remains JSON-serializable without changing the ingested values.
+            preview = json.loads(json.dumps(sample, default=str))
+            result={'sha256':file_hash(path),'bytes':path.stat().st_size,'sample_fields':sorted(sample) if isinstance(sample,dict) else [],'sample':preview}
         elif args.command=='seeds':
             seeds=json.loads(Path(args.file).read_text())
             if not isinstance(seeds,list) or any(not s.get('address') or not s.get('source') for s in seeds):

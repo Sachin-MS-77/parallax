@@ -1,0 +1,30 @@
+{
+  "scope": "Supplied PARALLAX synthetic dataset; ground truth is generator scaffolding, not operational truth",
+  "records": 4303,
+  "wallet_profiles": 6032,
+  "positive_wallets_in_ground_truth": 358,
+  "top20_true_positives": 20,
+  "precision_at_20": 1.0,
+  "high_alerts": 0,
+  "high_true_positives": 0,
+  "ground_truth_recall_at_threshold": 0.0,
+  "source_sha256": "af82e412a54dab01f7972befef97ffb2680a822916df0883fc6fd6f0d29c212e",
+  "normalization_manifest": {
+    "source": "/Users/sachinchandru/Downloads/parallax_dataset.json",
+    "source_sha256": "e0cef543fab770afe25e12de93cbcc8387c308ca9123656f7e3c8198c1578bc0",
+    "output": "data/ntro-real-20260925/normalized.json",
+    "records": 4303,
+    "repairs": {
+      "aggregate_input_amounts": 1212,
+      "rounding_overflow": 5,
+      "fee_recomputed": 4303
+    },
+    "policy": "Original preserved; aggregate inputs split equally; <=4 sat rounding overflow corrected; fee recomputed from satoshi totals"
+  },
+  "integrity": {
+    "accepted": 4303,
+    "duplicates": 0,
+    "new_transactions": 4303,
+    "quarantined": 0
+  }
+}

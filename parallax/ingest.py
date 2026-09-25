@@ -93,7 +93,7 @@ def port(value):
     return n
 
 
-def normalize(raw, mapping=None):
+def normalize(raw, mapping=None, allow_fee_mismatch=False):
     if not isinstance(raw, dict):
         raise ValueError("Record must be an object")
     if "__parse_error__" in raw:
@@ -123,9 +123,12 @@ def normalize(raw, mapping=None):
     fee = sum(out["input_sats"]) - sum(out["output_sats"])
     if fee < 0:
         raise ValueError("Outputs exceed inputs; coinbase/partial records require a separate adapter")
-    if mapped.get("fee") not in (None, "") and sats(mapped["fee"]) != fee:
+    reported_fee = sats(mapped["fee"]) if mapped.get("fee") not in (None, "") else None
+    if reported_fee is not None and reported_fee != fee and not allow_fee_mismatch:
         raise ValueError("Reported fee disagrees with input minus output amounts")
     out["fee_sats"] = fee
+    out["reported_fee_sats"] = reported_fee
+    out["fee_mismatch_sats"] = (reported_fee - fee) if reported_fee is not None and reported_fee != fee else 0
     vsize = mapped.get('vsize')
     out['vsize'] = int(vsize) if vsize not in (None,'') else None
     if out['vsize'] is not None and not 1 <= out['vsize'] <= 4_000_000:
@@ -174,7 +177,7 @@ class GeoIP:
             reader.close()
 
 
-def ingest(path, db_path, mapping=None, country_db=None, asn_db=None, tor_snapshot=None, max_gap_seconds=None):
+def ingest(path, db_path, mapping=None, country_db=None, asn_db=None, tor_snapshot=None, max_gap_seconds=None, allow_fee_mismatch=False):
     path, db_path = Path(path).resolve(), Path(db_path)
     source_hash = file_hash(path)
     db = connect(db_path)
@@ -207,7 +210,7 @@ def ingest(path, db_path, mapping=None, country_db=None, asn_db=None, tor_snapsh
                 seen += 1
                 raw_hash = digest(raw)
                 try:
-                    r = geo.enrich(normalize(raw, mapping))
+                    r = geo.enrich(normalize(raw, mapping, allow_fee_mismatch=allow_fee_mismatch))
                     unmapped.update(k for k in raw if (mapping or {}).get(k,ALIASES.get(k,k)) not in KNOWN_FIELDS)
                     stamp = datetime.fromisoformat(r['timestamp'])
                     if previous_time is not None and abs((stamp-previous_time).total_seconds()) > (max_gap_seconds or 86400):
@@ -236,6 +239,11 @@ def ingest(path, db_path, mapping=None, country_db=None, asn_db=None, tor_snapsh
                         db.execute("INSERT INTO observations VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", (obs_id, r["txid"], r["timestamp"], r["src_ip"], r["dst_ip"], r["src_port"], r["dst_port"], r["geo_country"], r["asn"], r["geo_source"], source_hash, index, canonical(r)))
                         counts["accepted"] += 1
                         status = "accepted"
+                        if r.get("fee_mismatch_sats"):
+                            audit(db, {"event": "fee_mismatch_accepted", "source": source_hash,
+                                       "row": index, "reported_fee_sats": r["reported_fee_sats"],
+                                       "computed_fee_sats": r["fee_sats"],
+                                       "policy": "computed fee retained; source field preserved"})
                     audit(db, {"event": status, "source": source_hash, "row": index, "raw_sha256": raw_hash, "observation_id": obs_id, "normalized_sha256": digest(r)})
                 except (ValueError, TypeError, KeyError, OverflowError) as e:
                     counts["quarantined"] += 1

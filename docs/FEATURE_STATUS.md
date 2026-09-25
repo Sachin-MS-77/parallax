@@ -28,8 +28,9 @@ the explicitly seeded simulation; it must not be described as an NTRO real case.
 
 ## External requirements still outstanding
 
-1. **Actual NTRO metadata run:** the earlier supplied download was a PDF brief.
-   A transaction CSV/JSON/XML file is needed.
+1. **Official NTRO metadata:** the PS26146 README states the official dataset
+   link is nil. The supplied synthetic JSON/CSV has now been ingested and scored;
+   it must be labelled as synthetic generator data in the submission.
 2. **Independent real topology:** no Elliptic edge list or documented case
    transaction graph was supplied. Public research is cited, not fabricated.
 3. **GeoIP coverage:** provide licensed local MMDB files before claiming enriched

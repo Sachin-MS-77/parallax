@@ -1,0 +1,12 @@
+{
+  "source": "/Users/sachinchandru/Downloads/parallax_dataset.json",
+  "source_sha256": "e0cef543fab770afe25e12de93cbcc8387c308ca9123656f7e3c8198c1578bc0",
+  "output": "data/ntro-real-20260925/normalized.json",
+  "records": 4303,
+  "repairs": {
+    "aggregate_input_amounts": 1212,
+    "rounding_overflow": 5,
+    "fee_recomputed": 4303
+  },
+  "policy": "Original preserved; aggregate inputs split equally; <=4 sat rounding overflow corrected; fee recomputed from satoshi totals"
+}

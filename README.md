@@ -59,6 +59,20 @@ parallax train --db case.sqlite --out model --graph-labels labels.json
 parallax score --db case.sqlite --model model
 ```
 
+The supplied PS26146 generator data has an explicit adapter for its aggregate
+multi-input amounts and a few satoshi-rounding discrepancies. It preserves the
+original source hash and writes a repair manifest before strict ingestion:
+
+```bash
+python scripts/normalize_dataset.py parallax_dataset.json \
+  --out data/normalized.json --manifest data/normalization.json
+parallax ingest data/normalized.json --db data/case.sqlite
+```
+
+If an operator chooses to retain a source's inconsistent fee field, use
+`--allow-fee-mismatch`; the computed input-minus-output fee remains authoritative
+and every discrepancy is written to the audit chain.
+
 Inspect files before import. A PDF, including a project brief or a Drive preview, is rejected explicitly:
 
 ```bash
