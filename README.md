@@ -80,6 +80,12 @@ The optional Streamlit surface exposes the same case in a compact analyst
 layout with live evasion attempts, validation metrics, integrity verification,
 and dossier download.
 
+![PARALLAX dashboard overview](submission/2026-09-25/dashboard-screens/dashboard-overview.png)
+
+The capture is from the local dashboard and uses the synthetic demonstration
+case. The validation and evidence views are included alongside it in the
+submission artifact folder.
+
 ## Architecture
 
 Read the [architecture and full working pipeline](docs/ARCHITECTURE.md) for GitHub-rendered diagrams, component responsibilities, model validation and runtime boundaries.
@@ -100,6 +106,8 @@ The [PARALLAX Linux screenshots workflow template](docs/workflows/linux-demo.yml
 Use Python 3.12 on macOS or Linux (Python 3.11+ is declared supported). The dependency set is fully local at runtime; GeoIP files are optional and are never downloaded by PARALLAX.
 
 See [installation and teammate handoff](docs/INSTALLATION.md), the [two-minute presentation script](docs/DEMO_SCRIPT.md), and the [honest feature-status checklist](docs/FEATURE_STATUS.md). The dashboard styling is inspired by [Musemind's Fortexa design](https://www.behance.net/gallery/226315823/Cybersecurity-SaaS-Dashboard-Application); all interface code and charts are implemented locally, with no copied design assets.
+
+For the standalone submission narrative, read the [technical write-up](docs/TECHNICAL_WRITEUP.md) or download the rendered [technical write-up PDF](submission/2026-09-25/PARALLAX-technical-writeup.pdf). Generated dashboard captures are available in [`submission/2026-09-25/dashboard-screens/`](submission/2026-09-25/dashboard-screens/): overview, validation metrics, and evidence integrity.
 
 ```bash
 ./scripts/install.sh
