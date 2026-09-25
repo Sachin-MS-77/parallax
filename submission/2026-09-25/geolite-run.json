@@ -1,0 +1,18 @@
+{
+  "scope": "PARALLAX supplied synthetic dataset with local GeoLite2 enrichment",
+  "country_mmdb": "aa10ad6c6dc7daa32344954a9bdfae83d8e791540b7d17f7d06086aeb5b630cc",
+  "asn_mmdb": "b3eabc78beb2afd554f9592aa21da202de88e962a3c20ef164784f0ac7bc111f",
+  "city_mmdb_available": "b58a534ffef96cd6bb44cc2dd570a94bb5bdf663a34849cd7201a83527de1193",
+  "records": 4303,
+  "quarantined": 0,
+  "profiles": 6032,
+  "observations_with_country_db": 4232,
+  "observations_with_asn_db": 3591,
+  "audit_entries": 4306,
+  "integrity": {
+    "accepted": 4303,
+    "duplicates": 0,
+    "new_transactions": 4303,
+    "quarantined": 0
+  }
+}

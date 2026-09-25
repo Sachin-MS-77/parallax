@@ -59,6 +59,7 @@ reproduction, but in actual use they must be retained independently.
 - Full demo test runs with socket connection attempts blocked.
 - Styled dashboard and Streamlit load locally; live evasion returns measured changes.
 - The supplied PS26146 synthetic dataset was ingested after an explicit, hash-linked normalization step: 4,303 records accepted, zero quarantined, 6,032 wallet profiles scored. The original source SHA-256 is retained in `submission/2026-09-25/ntro-normalization.json`.
+- A second run used the supplied local GeoLite2 Country and ASN MMDB files: 4,232 observations received Country matches and 3,591 received ASN matches. Their SHA-256 values are recorded in `submission/2026-09-25/geolite-run.json`; the MMDB binaries remain local and are not redistributed in Git.
 - Ground-truth comparison on the supplied generator labels produced 20/20 top-ranked positives (P@20 = 1.00); no profiles crossed the fixed Fracture high band (>60), so threshold recall was 0.00. This is synthetic generator scaffolding, not operational accuracy.
 - The dataset's own README says NTRO's official dataset link is nil; the supplied files are synthetic project data. Independent Elliptic case topology remains unavailable.
 - Linux container validation is prepared in `Dockerfile`, but this Mac run could not complete the 159 MB aarch64 CPU-PyTorch download within the available build window. A teammate should run the documented Docker commands on a connected Linux host, then repeat the two `--network none` runtime checks.
