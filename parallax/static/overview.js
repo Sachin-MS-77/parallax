@@ -14,10 +14,10 @@ function renderOverview(data) {
     const stride=Math.max(1,Math.ceil(rows.length/48)), buckets=[];
     for(let i=0;i<rows.length;i+=stride) buckets.push({label:rows[i].hour,value:rows.slice(i,i+stride).reduce((n,r)=>n+r.transactions,0)});
     const peak=Math.max(...buckets.map(r=>r.value),1);
-    for(let y=20;y<140;y+=40)plot.append(svg('line',{x1:0,y1:y,x2:650,y2:y,stroke:'#302b39','stroke-dasharray':'3 5'}));
+    for(let y=20;y<140;y+=40)plot.append(svg('line',{x1:0,y1:y,x2:650,y2:y,stroke:'#d7e2ee','stroke-dasharray':'3 5'}));
     buckets.forEach((r,i)=>{
       const w=650/buckets.length,h=r.value/peak*118;
-      const bar=svg('rect',{x:i*w+2,y:140-h,width:Math.max(2,w-5),height:h,rx:3,fill:i%4===0?'#bd91ff':'#7551a7'});
+      const bar=svg('rect',{x:i*w+2,y:140-h,width:Math.max(2,w-5),height:h,rx:3,fill:i%4===0?'#2563eb':'#5b8def'});
       const title=svg('title');title.textContent=r.label+' UTC: '+r.value+' transactions';bar.append(title);plot.append(bar);
     });
     chart.append(plot);
