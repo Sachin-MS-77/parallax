@@ -35,6 +35,8 @@ the explicitly seeded simulation; it must not be described as an NTRO real case.
    transaction graph was supplied. Public research is cited, not fabricated.
 3. **GeoIP coverage:** provide licensed local MMDB files before claiming enriched
    country/ASN coverage.
-4. **Linux acceptance:** the Dockerfile and runtime commands are ready, but this
-   Mac could not finish downloading the 159 MB aarch64 CPU-PyTorch wheel. Run the
-   build and both network-isolated commands on the teammate's connected Linux host.
+4. **Linux acceptance:** the operator has reported successful native Kali server
+   startup and listed the generated demo artifacts. Test logs, integrity results,
+   benchmark contents and browser screenshots are still needed; follow
+   [Linux acceptance capture](LINUX_ACCEPTANCE.md). Docker network-isolated
+   execution remains unverified.

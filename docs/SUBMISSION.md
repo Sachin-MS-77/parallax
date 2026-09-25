@@ -55,6 +55,8 @@ reproduction, but in actual use they must be retained independently.
 
 ## Verification and external status
 
+- Native Kali Linux execution is now user-reported: demo output files are present and Uvicorn completed startup on port 8765. See [Linux acceptance evidence](LINUX_ACCEPTANCE.md) for the supplied transcript and remaining verification capture. Linux test, integrity and browser results have not yet been supplied.
+
 - 24 automated tests passed on macOS, including Streamlit rendering and endpoint evidence.
 - Full demo test runs with socket connection attempts blocked.
 - Styled dashboard and Streamlit load locally; live evasion returns measured changes.
