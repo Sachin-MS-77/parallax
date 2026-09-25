@@ -59,7 +59,7 @@ reproduction, but in actual use they must be retained independently.
 - Full demo test runs with socket connection attempts blocked.
 - Styled dashboard and Streamlit load locally; live evasion returns measured changes.
 - Actual NTRO dataset and independent Elliptic case topology remain unavailable.
-- Linux container validation is recorded separately when completed.
+- Linux container validation is prepared in `Dockerfile`, but this Mac run could not complete the 159 MB aarch64 CPU-PyTorch download within the available build window. A teammate should run the documented Docker commands on a connected Linux host, then repeat the two `--network none` runtime checks.
 
 For recording, use the [timed script](DEMO_SCRIPT.md). The UI now also includes
 live evasion and Fracture weight feedback; reserve an extended demonstration for

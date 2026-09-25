@@ -34,5 +34,6 @@ the explicitly seeded simulation; it must not be described as an NTRO real case.
    transaction graph was supplied. Public research is cited, not fabricated.
 3. **GeoIP coverage:** provide licensed local MMDB files before claiming enriched
    country/ASN coverage.
-4. **Linux acceptance:** see SUBMISSION.md for the actual run status; a Dockerfile
-   or workflow template alone is not execution evidence.
+4. **Linux acceptance:** the Dockerfile and runtime commands are ready, but this
+   Mac could not finish downloading the 159 MB aarch64 CPU-PyTorch wheel. Run the
+   build and both network-isolated commands on the teammate's connected Linux host.
