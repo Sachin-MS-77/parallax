@@ -1,12 +1,84 @@
-# PARALLAX Offline Workbench
+# PARALLAX · Offline Bitcoin Investigation Workbench
 
-PARALLAX is an offline investigation aid for Problem Statement 26146. It ingests Bitcoin transaction and network metadata, preserves the original evidence, builds a heterogeneous address/transaction/IP view, and ranks unusual address profiles for human review.
+> **CSV / JSON / XML → evidence-preserving fusion → explainable leads**
+
+![Offline-first](https://img.shields.io/badge/runtime-offline%20after%20install-6d5dfc)
+![Python](https://img.shields.io/badge/python-3.11%2B-3776ab)
+![Tests](https://img.shields.io/badge/tests-24%20passed-1f9d55)
+
+PARALLAX is an offline investigation aid for NTRO Problem Statement 26146. It
+joins blockchain-layer activity with network-layer observations so an analyst
+can move from a ranked lead to the exact transactions, relay observations,
+rules, model contributions, and integrity trail behind it.
 
 The implementation deliberately separates three concepts:
 
 * `priority` is a triage score, not a probability of crime;
 * `evidence_quality` describes how complete the supporting observations are;
 * network edges are labelled `observed_relay_only` and never claim that an IP owns a wallet.
+
+## Why it is different
+
+| Design choice | Investigator value |
+|---|---|
+| **One fused graph** | Wallets, transactions, and observed IPs are explored together, with blockchain-only, network-only, and fused views. |
+| **Evidence before scoring** | Source files, normalized rows, row hashes, and a hash-chained audit log are retained before any model runs. |
+| **Rules + ML + graph context** | Deterministic laundering signatures, Isolation Forest anomaly ranking, changepoints, and GraphSAGE context complement each other. |
+| **Explainability by construction** | Every lead can show rule-hit TXIDs, SHAP contributions, score components, supporting paths, and uncertainty. |
+| **Adversarial validation** | Peel chains, fan-out, mixer hops, and timing jitter mutate across rounds so evasion failures are visible. |
+| **Human feedback loop** | Explicit false-positive dismissals update the configured Fracture weights, invalidate stale evaluation, and preserve the decision in the audit trail. |
+| **Offline and reproducible** | After installation, analysis makes no external network calls; signed dossiers can be checked by a standalone verifier. |
+
+## The working pipeline
+
+```mermaid
+flowchart TD
+    A["CSV · JSON · XML\nBulk metadata"] --> B["Streaming ingest\nPolars/DuckDB batches"]
+    B --> C["Normalize + validate\nUTC · satoshis · schema aliases"]
+    C --> D{"Validation gate"}
+    D -->|accepted| E["Evidence store\nrow hashes + hash chain"]
+    D -->|malformed| Q["Quarantine\nreason + raw record retained"]
+    E --> F["GeoIP/ASN enrichment\nlocal MMDB only"]
+    F --> G["Entity resolution\ncommon-input + change hypotheses"]
+    G --> H["Unified graph\nWallet ↔ TX ↔ IP"]
+    H --> I["Features\nstructural · economic · temporal"]
+    I --> J1["Rules\npeel · fan-out · mixer"]
+    I --> J2["Isolation Forest\nchain + fused profiles"]
+    I --> J3["Changepoints\nbehavior shifts"]
+    H --> J4["GraphSAGE\nnetwork context"]
+    J1 --> K["Fracture Index 0–100"]
+    J2 --> K
+    J3 --> K
+    J4 --> K
+    K --> L["Ranked, explainable leads"]
+    L --> M["Dashboard + analyst review"]
+    M --> N["Signed PDF/ZIP dossier\nindependent verification"]
+```
+
+The important boundary is the validation gate: malformed records are never
+silently discarded, and the model cannot erase the evidence that produced a
+lead. The score is a triage priority, not a probability of criminality.
+
+## Dashboard tour
+
+Start the local dashboard with `parallax serve`. The overview shows observed
+traffic, priority bands, held-out comparison metrics, and the current data
+quality state. Selecting a lead opens the investigation view:
+
+1. **Lead summary** — Fracture score, confidence band, evidence completeness,
+   and plain-language reason.
+2. **Connected evidence** — switch between blockchain-only, network-only, and
+   fused graph layers; inspect the supporting path and observed relay edges.
+3. **Explainability** — SHAP contributions, deterministic rule hits with TXIDs,
+   taint haircut context, endpoint candidates, and temporal drift.
+4. **Analyst review** — record a reasoned decision; a confirmed false positive
+   updates weights and forces a fresh evaluation.
+5. **Evidence & export** — verify the source chain and download a signed case
+   dossier containing the selected records, graph, scoring snapshot, and PDF.
+
+The optional Streamlit surface exposes the same case in a compact analyst
+layout with live evasion attempts, validation metrics, integrity verification,
+and dossier download.
 
 ## Architecture
 
@@ -37,6 +109,10 @@ parallax verify-audit --db data/demo/case.sqlite
 parallax verify-case data/demo/sample-case.zip --trusted-key data/demo/signer-public-key.txt
 parallax serve --data data/demo --port 8765
 ```
+
+Open `http://127.0.0.1:8765`. For the alternate analyst surface, run
+`parallax streamlit --data data/demo --port 8501` and open
+`http://127.0.0.1:8501`.
 
 For an air-gapped Linux host, prepare wheels on a matching connected machine and transfer the project with `wheelhouse/`:
 
@@ -118,6 +194,28 @@ parallax verify-pdf data/demo/report.pdf --signature data/demo/report.pdf.sig --
 ## Validation and limitations
 
 The synthetic generator creates benign and anomalous scenarios with disjoint input entities and time windows. Evaluation reports Precision@K, precision, recall, false-positive rate, average precision, synthetic calibration and a GraphSAGE comparison where labels are available. The requested Fracture Index uses fixed score bands: Low <=30, Moderate >30 to 60, High >60. The synthetic probability calibrator remains separate from this priority formula. Explicit false-positive dismissals update the configured weights and invalidate the old evaluation. The separate labelled-feedback model reports its probability estimate and holdout Brier score without replacing the Fracture Index. Independent external validation remains necessary.
+
+## Supplied PS26146 data run
+
+The repository includes reviewable evidence from the supplied synthetic dataset.
+The original JSON was preserved by hash; its generator-specific aggregate input
+amounts and five tiny rounding overflows were repaired in a separate manifest
+before strict ingestion. With the supplied local GeoLite2 Country and ASN
+databases, the run produced:
+
+| Measure | Result |
+|---|---:|
+| Transactions accepted | 4,303 |
+| Quarantined records | 0 |
+| Wallet profiles scored | 6,032 |
+| Country database matches | 4,232 |
+| ASN database matches | 3,591 |
+| Top-20 generator-label positives | 20/20 |
+
+The labels are generator scaffolding for development, not operational truth.
+The full artifacts are in [`submission/2026-09-25/`](submission/2026-09-25/),
+including the normalization manifest, GeoLite hashes, comparison report, and
+independently verified sample dossier.
 
 ## Submission working plan
 
