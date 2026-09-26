@@ -39,6 +39,31 @@ installer from the repository root. If the preflight reports a full disk, use
 `du -xhd1 ~ | sort -h` to find large directories and
 `python3 -m pip cache purge` to remove cached downloads.
 
+### Kali troubleshooting
+
+PARALLAX does not use the Elastic APT repository. If `apt-get update` reports a
+SHA-1 signing-binding error for `artifacts.elastic.co`, temporarily comment out
+that third-party source under `/etc/apt/sources.list.d/` and update Kali again.
+Do not disable the Kali source. Then install the venv package matching the
+Python interpreter shown by the installer; for Python 3.13:
+
+```bash
+sudo apt-get update
+sudo apt-get install --no-upgrade -y python3.13-venv python3-pip
+```
+
+If the failed run left a partial environment, move that project-local directory
+aside and let the installer create a clean one:
+
+```bash
+if [ -d .venv ]; then mv .venv .venv.failed; fi
+PIP_NO_CACHE_DIR=1 bash scripts/install.sh
+source .venv/bin/activate
+```
+
+The Elastic signature warning and a missing Python venv package are separate
+host configuration issues; neither indicates a PARALLAX parsing or model error.
+
 Open **http://127.0.0.1:8877**. The demo command creates training, calibration and held-out synthetic test splits, trains models and attaches evaluation. It refuses to overwrite an existing demo directory: choose a new directory when repeating. Keep the terminal running; press Ctrl+C to stop.
 
 The dashboard's **Import metadata** action first opens an intake gate. Review
