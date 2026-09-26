@@ -17,7 +17,7 @@ means working code with stated scope; it does not mean independent forensic vali
 | 10. Explainability | SHAP, rule TXIDs, evidence-derived notes, supporting path subgraph and uncertainty | Evidence-selected graph is not a mathematically minimum graph; notes avoid claims not supported by fields |
 | 11. Adversarial harness | Peel, fan-out, mixing and jitter actors; detector-triggered fresh-address/timing/mixer/co-input mutations; all rounds and failures reported | Existing published-pattern replay is DOJ-inspired synthetic data. Real Elliptic topology cross-check remains unavailable |
 | 12. Independent verification | Cluster PDF/JSON, graph SVG, complete selected records, score snapshot, detached signatures; standalone verifier against original audit | Requires a separately trusted key/log; cannot certify truth of original metadata or legal admissibility |
-| 13. Dashboard | Styled local dashboard plus Streamlit; ranked leads, SHAP, drift, taint, endpoint candidates, case notes, graph layers, evasion, integrity checks and triage | Single local analyst workstation, not a multi-user case-management server |
+| 13. Dashboard | Styled local dashboard plus Streamlit; ranked leads, SHAP, drift, taint, endpoint candidates, case notes, graph layers, temporal filtering, edge provenance, counterfactual evidence lift, intake preview, competing hypotheses, evasion technique filtering, integrity badge and triage | Single local analyst workstation, not a multi-user case-management server |
 
 ## Submission evidence
 

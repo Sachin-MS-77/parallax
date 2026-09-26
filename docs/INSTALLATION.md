@@ -14,7 +14,44 @@ parallax demo --data data/video-demo --entities 160
 parallax serve --data data/video-demo --port 8877
 ```
 
+The installer reuses only the repository's `.venv`, disables pip's download
+cache, checks Linux disk space before downloading CPU PyTorch, and prints a
+recovery command when an install is interrupted. On Kali/Debian, install the
+system prerequisites once if needed:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y python3 python3-venv python3-pip
+```
+
+Use Python 3.12 on Linux when available. Before installing, make sure at least
+2 GB is free because the CPU PyTorch wheel and temporary build files are large:
+
+```bash
+df -h .
+PIP_NO_CACHE_DIR=1 bash scripts/install.sh
+source .venv/bin/activate
+```
+
+If a previous attempt was interrupted, do not use a stale shell command from a
+deleted environment. Start a new terminal or run `deactivate`, then rerun the
+installer from the repository root. If the preflight reports a full disk, use
+`du -xhd1 ~ | sort -h` to find large directories and
+`python3 -m pip cache purge` to remove cached downloads.
+
 Open **http://127.0.0.1:8877**. The demo command creates training, calibration and held-out synthetic test splits, trains models and attaches evaluation. It refuses to overwrite an existing demo directory: choose a new directory when repeating. Keep the terminal running; press Ctrl+C to stop.
+
+The dashboard's **Import metadata** action first opens an intake gate. Review
+the detected fields, source size and SHA-256 preview, then choose **Confirm and
+ingest**. Selecting a lead exposes the evidence lift from the chain-only model
+to the fused model. The graph timeline slider filters transactions by recorded
+UTC time; clicking an edge shows its source row and provenance when available.
+
+After a scored run, produce a handoff bundle with:
+
+```bash
+./scripts/acceptance_bundle.py --data data/video-demo --out acceptance/video-demo
+```
 
 For the additional Streamlit investigation interface, open another activated terminal:
 

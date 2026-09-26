@@ -3,10 +3,17 @@ from collections import defaultdict
 from .intelligence import context
 
 
-def graph(db, address, layer="fused", limit=80):
+def graph(db, address, layer="fused", limit=80, until=None):
     if layer not in ("fused", "chain", "network"):
         raise ValueError("Unknown layer")
-    txids = [r[0] for r in db.execute("SELECT DISTINCT txid FROM flows WHERE address=? ORDER BY txid LIMIT ?", (address, limit))]
+    query = "SELECT DISTINCT f.txid FROM flows f JOIN transactions t ON t.txid=f.txid WHERE f.address=?"
+    params = [address]
+    if until:
+        query += " AND t.first_seen<=?"
+        params.append(until)
+    query += " ORDER BY f.txid LIMIT ?"
+    params.append(limit)
+    txids = [r[0] for r in db.execute(query, params)]
     total_txs = db.execute("SELECT COUNT(DISTINCT txid) FROM flows WHERE address=?", (address,)).fetchone()[0]
     nodes, edges = {}, []
     total_flows, shown_flows, total_obs, shown_obs = 0, 0, 0, 0
@@ -23,7 +30,8 @@ def graph(db, address, layer="fused", limit=80):
             edges.append({'source':eid,'target':'address:'+member,'kind':'candidate_member','certainty':'heuristic_not_verified'})
     for txid in txids:
         tid = "tx:" + txid
-        node(tid, "transaction", txid, highlighted=txid in ctx['peel'] or txid in ctx['mixers'])
+        timestamp = db.execute("SELECT first_seen FROM transactions WHERE txid=?", (txid,)).fetchone()[0]
+        node(tid, "transaction", txid, timestamp=timestamp, highlighted=txid in ctx['peel'] or txid in ctx['mixers'])
         if layer in ("fused", "chain"):
             total_flows += db.execute("SELECT COUNT(*) FROM flows WHERE txid=?", (txid,)).fetchone()[0]
             for f in db.execute("SELECT * FROM flows WHERE txid=? ORDER BY (address=?) DESC,direction,ordinal LIMIT 40", (txid, address)):
@@ -57,8 +65,10 @@ def graph(db, address, layer="fused", limit=80):
         for a in [a for a in ctx['change_candidates'] if address in (a['source'],a['target'])][:10]:
             for key in ('source','target'): node('address:'+a[key],'address',a[key],selected=a[key]==address)
             edges.append({**a,'source':'address:'+a['source'],'target':'address:'+a['target'],'kind':'change_candidate'})
+    bounds = list(db.execute("SELECT MIN(first_seen),MAX(first_seen) FROM transactions WHERE txid IN ({})".format(','.join('?'*len(txids))), txids).fetchone()) if txids else [None, None]
     return {"nodes": list(nodes.values()), "edges": edges, "layer": layer,
             "suppressed_shared_relays":ctx['suppressed_hubs'],
             "truncated": total_txs > len(txids) or total_flows > shown_flows or (layer != "chain" and total_obs > shown_obs),
             "total_transactions": total_txs, "shown_transactions": len(txids),
-            "ownership_claims": 0, "limits": {"transactions": limit, "flows_per_tx": 40, "observations_per_tx": 60}}
+            "ownership_claims": 0, "time_min": bounds[0], "time_max": bounds[1], "time_until": until,
+            "limits": {"transactions": limit, "flows_per_tx": 40, "observations_per_tx": 60}}

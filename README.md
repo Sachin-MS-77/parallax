@@ -118,6 +118,13 @@ parallax verify-case data/demo/sample-case.zip --trusted-key data/demo/signer-pu
 parallax serve --data data/demo --port 8765
 ```
 
+On Linux, `scripts/install.sh` performs a disk-space preflight and installs
+with `PIP_NO_CACHE_DIR=1` so the large CPU PyTorch download is not duplicated in
+the pip cache. If it stops before printing **Installed PARALLAX**, fix the
+reported disk or Python prerequisite and rerun the same command from the
+repository root; do not run a `parallax` command from a deleted or different
+virtual environment.
+
 Open `http://127.0.0.1:8765`. For the alternate analyst surface, run
 `parallax streamlit --data data/demo --port 8501` and open
 `http://127.0.0.1:8501`.
@@ -186,6 +193,14 @@ The required model is an Isolation Forest over chain and network metadata featur
 
 The dashboard is localhost-only and includes layer-specific interactive graph views, ranked alerts, alert evidence, analyst review states, source/schema review, and case-dossier export. Case dossiers contain source hashes, normalized records, a signed JSON manifest, a print-ready PDF, a detached PDF signature, and an Ed25519 signature. Verification checks both the archive and the separately retained public key.
 
+The upgraded analyst surface adds an operational-readiness command center, a
+review-before-import intake gate with field and SHA-256 preview, a temporal
+graph slider, clickable edge provenance, chain-only versus fused
+counterfactual scores, competing entity hypotheses, an uncertainty panel, a
+technique-filtered red-team lab, and a visible evidence-integrity badge. These
+are presentation aids over the same offline evidence store; they do not infer
+ownership or turn a priority score into a probability of crime.
+
 Adaptive and external-pattern checks are available for development:
 
 ```bash
@@ -235,6 +250,16 @@ parallax adversarial --model data/demo/model --out data/adversarial-run --rounds
 parallax export-audit --db data/demo/case.sqlite --out data/demo/original-audit.jsonl
 python scripts/verify_dossier_standalone.py data/demo/sample-case.zip data/demo/original-audit.jsonl --trusted-key data/demo/signer-public-key.txt
 ```
+
+Create a single reviewable acceptance bundle after a scored run:
+
+```bash
+./scripts/acceptance_bundle.py --data data/demo --out acceptance/demo
+```
+
+The bundle contains test and integrity outputs, the audit export, benchmark and
+evaluation files, the Git commit, and a manifest. It deliberately excludes the
+private signing key.
 
 The standalone verifier imports no application code. It checks signatures, the original log prefix, the signed scoring snapshot, cluster membership and normalized record consistency. Store the trusted key and original audit log separately from the dossier; a bundle that contains its own key and log cannot establish external trust on its own.
 

@@ -16,7 +16,7 @@ from starlette.concurrency import run_in_threadpool
 
 from .evidence import dossier, get_alert
 from .graph import graph
-from .ingest import ingest
+from .ingest import ingest, records
 from .model import score
 from .storage import audit, connect, file_hash, get_meta, set_meta, verify_audit, verify_state
 
@@ -103,10 +103,10 @@ def create_app(data):
             db.close()
 
     @app.get("/api/graph")
-    def graph_data(address: str, layer: str = "fused"):
+    def graph_data(address: str, layer: str = "fused", until: str | None = None):
         db = connect(db_path)
         try:
-            return graph(db, address, layer, limit=6)
+            return graph(db, address, layer, limit=6, until=until)
         except ValueError as e:
             raise HTTPException(400, str(e))
         finally:
@@ -216,6 +216,43 @@ def create_app(data):
             return Response(out.getvalue(), media_type="text/csv", headers={"Content-Disposition": 'attachment; filename="parallax-alerts.csv"'})
         finally:
             db.close()
+
+    @app.post("/api/inspect-upload")
+    async def inspect_upload(request: Request):
+        """Preview an upload before it is admitted to the evidence store."""
+        name = Path(request.headers.get("x-filename", "upload.jsonl")).name
+        extension = Path(name).suffix.lower()
+        if extension not in (".csv", ".json", ".jsonl", ".ndjson", ".xml"):
+            raise HTTPException(400, "Choose CSV, JSON, JSONL, or XML metadata")
+        upload_dir = data / "imports"
+        upload_dir.mkdir(exist_ok=True)
+        with tempfile.NamedTemporaryFile(suffix=extension, dir=upload_dir, delete=False) as f:
+            path = Path(f.name)
+            size = 0
+            try:
+                async for chunk in request.stream():
+                    size += len(chunk)
+                    if size > 25 * 1024 * 1024:
+                        raise HTTPException(413, "Dashboard upload limit is 25 MB; use the CLI for bulk files")
+                    f.write(chunk)
+            except Exception:
+                path.unlink(missing_ok=True)
+                raise
+        try:
+            iterator = records(path)
+            sample = next(iterator, None)
+            fields = sorted(sample) if isinstance(sample, dict) else []
+            return {"filename": name, "bytes": size, "sha256": file_hash(path),
+                    "fields": fields, "sample": json.loads(json.dumps(sample, default=str)),
+                    "mapping_hints": {field: field for field in fields if field in {
+                        "timestamp", "txid", "src_ip", "dst_ip", "src_port", "dst_port",
+                        "input_addresses", "output_addresses", "input_amounts", "output_amounts",
+                        "fee", "script_type", "geo_country", "asn"}},
+                    "next_step": "Confirm import to archive and validate every row"}
+        except (ValueError, StopIteration) as e:
+            raise HTTPException(400, f"Unable to preview metadata: {e}")
+        finally:
+            path.unlink(missing_ok=True)
 
     @app.post("/api/import")
     async def import_file(request: Request):
