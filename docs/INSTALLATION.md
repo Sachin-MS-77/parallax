@@ -42,8 +42,15 @@ installer from the repository root. If the preflight reports a full disk, use
 ### Kali troubleshooting
 
 PARALLAX does not use the Elastic APT repository. If `apt-get update` reports a
-SHA-1 signing-binding error for `artifacts.elastic.co`, temporarily comment out
-that third-party source under `/etc/apt/sources.list.d/` and update Kali again.
+SHA-1 signing-binding error for `artifacts.elastic.co`, temporarily disable that
+third-party source under `/etc/apt/sources.list.d/` and update Kali again. For
+the common Kali `.sources` filename, the reversible command is:
+
+```bash
+sudo mv /etc/apt/sources.list.d/elastic.sources \
+  /etc/apt/sources.list.d/elastic.sources.disabled
+```
+
 Do not disable the Kali source. Then install the venv package matching the
 Python interpreter shown by the installer; for Python 3.13:
 
@@ -59,6 +66,13 @@ aside and let the installer create a clean one:
 if [ -d .venv ]; then mv .venv .venv.failed; fi
 PIP_NO_CACHE_DIR=1 bash scripts/install.sh
 source .venv/bin/activate
+```
+
+Restore the optional Elastic source later with:
+
+```bash
+sudo mv /etc/apt/sources.list.d/elastic.sources.disabled \
+  /etc/apt/sources.list.d/elastic.sources
 ```
 
 The Elastic signature warning and a missing Python venv package are separate
@@ -77,6 +91,16 @@ After a scored run, produce a handoff bundle with:
 ```bash
 ./scripts/acceptance_bundle.py --data data/video-demo --out acceptance/video-demo
 ```
+
+For the simplest connected Kali/Linux path, use the wrapper. It installs into
+`.venv`, runs the tests, creates a fresh synthetic case, and starts the server:
+
+```bash
+bash scripts/linux_quickstart.sh
+```
+
+Set `PARALLAX_DATA_DIR` or `PARALLAX_PORT` when you need a different output
+directory or port. Existing case directories are preserved automatically.
 
 For the additional Streamlit investigation interface, open another activated terminal:
 

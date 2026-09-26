@@ -125,6 +125,16 @@ reported disk or Python prerequisite and rerun the same command from the
 repository root; do not run a `parallax` command from a deleted or different
 virtual environment.
 
+For a connected Kali/Linux demo, the complete setup can be run with one command:
+
+```bash
+bash scripts/linux_quickstart.sh
+```
+
+It checks Python venv support, installs into `.venv`, runs tests, creates a
+fresh demo directory, and starts the localhost dashboard. It preserves an
+existing case by choosing a timestamped output directory.
+
 Open `http://127.0.0.1:8765`. For the alternate analyst surface, run
 `parallax streamlit --data data/demo --port 8501` and open
 `http://127.0.0.1:8501`.
