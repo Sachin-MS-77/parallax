@@ -44,7 +44,9 @@ fi
 
 "$PYTHON_BIN" -c 'import sys; assert sys.version_info >= (3,11), "Python 3.11+ is required (Python 3.12 is recommended on Linux)"'
 "$PYTHON_BIN" -c 'import venv' || {
-  printf 'Python venv support is missing. On Kali/Debian run: sudo apt-get update && sudo apt-get install -y python3-venv python3-pip\n' >&2
+  pyver="$($PYTHON_BIN -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")' 2>/dev/null || printf '3')"
+  printf 'Python venv support is missing for %s. On Kali/Debian run: sudo apt-get install -y python%s-venv python3-pip\n' "$PYTHON_BIN" "$pyver" >&2
+  printf 'If apt reports an unrelated repository signature error, temporarily disable that third-party .list file, update Kali, and retry the version-specific package.\n' >&2
   exit 2
 }
 
